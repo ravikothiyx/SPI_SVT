@@ -1,7 +1,7 @@
 //////////////////////////////////////////////// 
 // File:          spi_svt_env.sv
 // Version:       v1
-// Developer:     Mayank
+// Developer:     Harekrishna
 // Project Name:  SPI
 // Discription:
 /////////////////////////////////////////////////
