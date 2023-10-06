@@ -23,7 +23,11 @@ package spi_svt_pkg;
    `include "spi_svt_master_config.sv"
    `include "spi_svt_slave_config.sv"
 
-   //master and  slave sequencer files
+   //Master transaction files 
+   //
+   `include "spi_svt_trans.sv"
+
+    //master and  slave sequencer files
    `include "spi_svt_master_sequencer.sv"
    `include "spi_svt_slave_sequencer.sv"
 

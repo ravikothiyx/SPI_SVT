@@ -14,7 +14,7 @@
 `ifndef SPI_SVT_MASTER_SEQUENCER_SV
 `define SPI_SVT_MASTER_SEQUENCER_SV
 
-class spi_svt_master_sequencer extends uvm_sequencer;
+class spi_svt_master_sequencer extends uvm_sequencer#(spi_svt_trans);
    
    // UVM Factory Registration Macro
    //

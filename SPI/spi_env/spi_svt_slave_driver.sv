@@ -14,7 +14,7 @@
 `ifndef SPI_SVT_SLAVE_DRIVER_SV
 `define SPI_SVT_SLAVE_DRIVER_SV
 
-class spi_svt_slave_driver extends uvm_driver;
+class spi_svt_slave_driver extends uvm_driver#(spi_svt_trans);
    
    // UVM Factory Registration Macro
    //

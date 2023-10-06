@@ -23,6 +23,10 @@ class spi_svt_base_test extends uvm_test;
    //
    spi_svt_env_config env_cfg;
 
+   //env class instance
+   //
+   spi_svt_env env_h;
+
    //------------------------------------------
    // Methods
    //------------------------------------------
@@ -39,25 +43,27 @@ class spi_svt_base_test extends uvm_test;
 
       `uvm_info(get_type_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
 
-     //Creating environment config
-     //
-      //env_cfg = apb_env_config::type_id::create("env_cfg");
+      //Creating environment config
+      //
+      env_cfg = spi_svt_env_config::type_id::create("env_cfg");
       
   
-      //uvm_config_db#(apb_env_config)::set(this,"*","env_cfg",env_cfg);
+      uvm_config_db#(spi_svt_env_config)::set(this,"*","env_cfg",env_cfg);
 
       //Creating the Environment
-      //env_h = apb_env::type_id::create("env_h",this);
+      //
+      env_h = spi_svt_env::type_id::create("env_h",this);
       
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
 
-      //End_of_elaboration_phase
+   //End_of_elaboration_phase
    function void end_of_elaboration_phase(uvm_phase phase);
       super.end_of_elaboration_phase(phase);
       `uvm_info(get_type_name(),"INSIDE END_OF_ELABORATION_PHASE",UVM_FULL);
       //Displaying Topology
-      //uvm_top.print_topology();
+      //
+      uvm_top.print_topology();
    endfunction : end_of_elaboration_phase
 
    //run phase

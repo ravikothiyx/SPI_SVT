@@ -1,0 +1,36 @@
+# vsim -novopt -c spi_svt_top -do "run -all;exit" 
+# Start time: 17:50:10 on Oct 06,2023
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# 
+# //  Questa Sim-64
+# //  Version 10.4e win64 Apr  9 2016
+# //
+# //  Copyright 1991-2016 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //  THIS DOCUMENT CONTAINS TRADE SECRETS AND COMMERCIAL OR FINANCIAL
+# //  INFORMATION THAT ARE PRIVILEGED, CONFIDENTIAL, AND EXEMPT FROM
+# //  DISCLOSURE UNDER THE FREEDOM OF INFORMATION ACT, 5 U.S.C. SECTION 552.
+# //  FURTHERMORE, THIS INFORMATION IS PROHIBITED FROM DISCLOSURE UNDER
+# //  THE TRADE SECRETS ACT, 18 U.S.C. SECTION 1905.
+# //
+# Refreshing F:/SPI_PROJECT/SPI/spi_sim/work.spi_svt_top
+# Refreshing F:/SPI_PROJECT/SPI/spi_sim/work.spi_svt_pkg
+# Loading sv_std.std
+# Loading mtiUvm.uvm_pkg
+# Loading work.spi_svt_pkg
+# Refreshing F:/SPI_PROJECT/SPI/spi_sim/work.spi_svt_top_sv_unit
+# Loading work.spi_svt_top_sv_unit
+# Loading work.spi_svt_top
+# Loading mtiUvm.questa_uvm_pkg
+# ** Error: (vsim-3046) ../spi_env/spi_svt_scoreboard.sv(29): Too many arguments to 'write_spi_svt_mas_mon'. Expected 0, found 1.
+#    Time: 0 ps  Iteration: 0  Region: /spi_svt_pkg::spi_svt_scoreboard::uvm_analysis_imp_spi_svt_mas_mon #(spi_svt_pkg::spi_svt_trans, spi_svt_pkg::spi_svt_scoreboard) File: ../spi_test/spi_svt_pkg.sv
+# ** Error: (vsim-3046) ../spi_env/spi_svt_scoreboard.sv(30): Too many arguments to 'write_spi_svt_slv_mon'. Expected 0, found 1.
+#    Time: 0 ps  Iteration: 0  Region: /spi_svt_pkg::spi_svt_scoreboard::uvm_analysis_imp_spi_svt_slv_mon #(spi_svt_pkg::spi_svt_trans, spi_svt_pkg::spi_svt_scoreboard) File: ../spi_test/spi_svt_pkg.sv
+# Loading C:/questasim64_10.4e/uvm-1.1d\win64\uvm_dpi.dll
+# Error loading design
+# End time: 17:50:12 on Oct 06,2023, Elapsed time: 0:00:02
+# Errors: 2, Warnings: 1
