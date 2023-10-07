@@ -6,53 +6,59 @@
 // Discription:   SPI package file 
 /////////////////////////////////////////////////
 
-//
-// Package Discription:
-//
+
+/** Package Discription:*/
+
 
 `ifndef SPI_PKG_SV
 `define SPI_PKG_SV
 
 `include "spi_svt_inf.sv"
 package spi_svt_pkg;
-   //header files
+   
+   /**Header files*/
    import uvm_pkg::*;
    `include "uvm_macros.svh"
    
-   //Agent configuration file
+   /**Agent configuration file*/
    `include "spi_svt_master_config.sv"
    `include "spi_svt_slave_config.sv"
 
-   //Master transaction files 
-   //
+   /**Master transaction files*/ 
    `include "spi_svt_trans.sv"
 
-    //master and  slave sequencer files
+   /**Master and  slave sequencer files*/
    `include "spi_svt_master_sequencer.sv"
    `include "spi_svt_slave_sequencer.sv"
 
-   //Master files
+   /**Master files*/
    `include "spi_svt_master_driver.sv"
    `include "spi_svt_master_monitor.sv"
    `include "spi_svt_master_coverage.sv"
    `include "spi_svt_master_agent.sv"
    `include "spi_svt_master_uvc.sv"
 
-   //Slave files
+   /**Slave files*/
    `include "spi_svt_slave_driver.sv"
    `include "spi_svt_slave_monitor.sv"
    `include "spi_svt_slave_coverage.sv"
    `include "spi_svt_slave_agent.sv"
    `include "spi_svt_slave_uvc.sv"
 
-   //Scoreboard and subscriber
+   /**Scoreboard*/
    `include "spi_svt_scoreboard.sv"
 
-   //Environment and Testcases seuqences
+   /**Virtual sequencer*/
+   `include "spi_svt_virtual_sequencer.sv"
+
+   /**Environment and Testcases seuqences*/
    `include "spi_svt_env_config.sv"
    `include "spi_svt_env.sv"
    
-   //Testcases   
+   /**Virtual sequence*/
+   `include "spi_svt_virtual_sequence.sv"
+   
+   /**Testcases*/  
    `include "spi_svt_base_test.sv"
 endpackage : spi_svt_pkg
-`endif //spi_svt_PKG
+`endif /**spi_svt_PKG*/

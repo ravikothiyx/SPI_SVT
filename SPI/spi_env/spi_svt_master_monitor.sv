@@ -6,30 +6,24 @@
 // Discription:
 /////////////////////////////////////////////////
 
-
-//
-// Class Description:
-//
-//
 `ifndef SPI_SVT_MASTER_MONITOR_SV
 `define SPI_SVT_MASTER_MONITOR_SV
 
 class spi_svt_master_monitor extends uvm_monitor;
    
-   // UVM Factory Registration Macro
-   //
+   /** UVM Factory Registration Macro**/
    `uvm_component_utils(spi_svt_master_monitor);
 
-   //Analysis port for scoreaboard and coverage collector
-   //
+   /** Analysis port for scoreaboard and coverage collector*/
    uvm_analysis_port#(spi_svt_trans) item_collected_port;
 
-   // Standard UVM Methods
+   /** Standard UVM Methods*/
    function new(string name = "spi_svt_master_monitor",uvm_component parent);
       super.new(name,parent);
+      item_collected_port = new("item_collected_port",this);
    endfunction : new
 
-   //build_phase
+   /** Build_phase*/
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
@@ -38,7 +32,7 @@ class spi_svt_master_monitor extends uvm_monitor;
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
 
-   //connect_phase
+   /** Connect_phase*/
    function void connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
@@ -46,11 +40,11 @@ class spi_svt_master_monitor extends uvm_monitor;
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase
    
-   //run_phase
+   /** Run_phase*/
    task run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
 endclass : spi_svt_master_monitor
-`endif //: SPI_SVT_MASTER_MONITOR_SV
+`endif /** SPI_SVT_MASTER_MONITOR_SV*/

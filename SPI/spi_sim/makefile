@@ -16,5 +16,10 @@ comp:
 
 #To run the simulation in questasim
 sim:
-	vsim -novopt -c $(TOP_N) -do "run -all;exit"
+	vsim -novopt $(TOP_N) -do "do runsim.do"
+
+#To run the simulation in command prompt
+sim_c:
+	vsim -novopt $(TOP_N) -c -do "run -all; exit"
+
 

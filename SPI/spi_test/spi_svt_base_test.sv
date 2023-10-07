@@ -21,7 +21,7 @@ class spi_svt_base_test extends uvm_test;
 
    //Envoronment config class instance
    //
-   spi_svt_env_config env_cfg;
+   spi_svt_env_config ecfg_h;
 
    //env class instance
    //
@@ -45,10 +45,9 @@ class spi_svt_base_test extends uvm_test;
 
       //Creating environment config
       //
-      env_cfg = spi_svt_env_config::type_id::create("env_cfg");
+      ecfg_h = spi_svt_env_config::type_id::create("ecfg_h");
       
-  
-      uvm_config_db#(spi_svt_env_config)::set(this,"*","env_cfg",env_cfg);
+      uvm_config_db#(spi_svt_env_config)::set(this,"*","ecfg_h",ecfg_h);
 
       //Creating the Environment
       //
