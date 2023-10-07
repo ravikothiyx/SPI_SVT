@@ -42,31 +42,12 @@ class spi_svt_scoreboard extends uvm_scoreboard;
       smon_imp = new("smon_imp",this);
    endfunction : new
 
-   //build_phase
-   function void build_phase(uvm_phase phase);
-      super.build_phase(phase);
-      `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
-      //trans_h = spi_svt_trans::type_id::create("trans_h");
-      `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
-   endfunction : build_phase
-
-
-   //connect_phase
-   function void connect_phase(uvm_phase phase);
-      super.connect_phase(phase);
-      `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
-      `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
-   endfunction : connect_phase
+   function void write_spi_svt_mas_mon(spi_svt_trans trans);
       
-    function void write_spi_svt_mas_mon();
-       `uvm_info(get_type_name(),"INSIDE MASTER MONITOR WRITE METHOD",UVM_DEBUG);
-    endfunction : write_spi_svt_mas_mon
+   endfunction : write_spi_svt_mas_mon 
 
-    function void write_spi_svt_slv_mon();
-    endfunction : write_spi_svt_slv_mon
- 
+   function void write_spi_svt_slv_mon(spi_svt_trans trans);
+   endfunction : write_spi_svt_slv_mon
    //run_phase
    task run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);

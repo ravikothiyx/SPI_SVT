@@ -51,6 +51,7 @@ class spi_svt_slave_agent extends uvm_agent;
    // Standard UVM Methods
    function new(string name = "spi_svt_slave_agent",uvm_component parent);
       super.new(name,parent);
+      a_sport = new("a_sport",this);
    endfunction : new
 
    //build_phase
@@ -80,12 +81,7 @@ class spi_svt_slave_agent extends uvm_agent;
       //creating slave coverage class
       //
       scov_h = spi_svt_slave_coverage::type_id::create("scov_h",this);
-       //Checking Agent is ACTIVE or PASSIVE(ACTIVE then create)
-      if(scfg_h.is_active == UVM_ACTIVE) begin
-         sseqr_h = spi_svt_slave_sequencer::type_id::create("sseqr_h",this);
-         sdrv_h  = spi_svt_slave_driver::type_id::create("sdrv_h",this);
-      end //if
-
+      
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase

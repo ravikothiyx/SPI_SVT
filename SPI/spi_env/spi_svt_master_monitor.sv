@@ -27,6 +27,7 @@ class spi_svt_master_monitor extends uvm_monitor;
    // Standard UVM Methods
    function new(string name = "spi_svt_master_monitor",uvm_component parent);
       super.new(name,parent);
+      item_collected_port = new("item_collected_port",this);
    endfunction : new
 
    //build_phase

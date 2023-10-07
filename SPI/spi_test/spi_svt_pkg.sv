@@ -48,9 +48,18 @@ package spi_svt_pkg;
    //Scoreboard and subscriber
    `include "spi_svt_scoreboard.sv"
 
+   //Virtual sequencer
+   //
+
+   `include "spi_svt_virtual_sequencer.sv"
+
    //Environment and Testcases seuqences
    `include "spi_svt_env_config.sv"
    `include "spi_svt_env.sv"
+   
+   //Virtual sequence
+   //
+   `include "spi_svt_virtual_sequence.sv"
    
    //Testcases   
    `include "spi_svt_base_test.sv"

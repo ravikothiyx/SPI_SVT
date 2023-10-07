@@ -34,6 +34,7 @@ class spi_svt_master_uvc extends uvm_agent;
    // Standard UVM Methods
    function new(string name = "spi_svt_master_uvc",uvm_component parent);
       super.new(name,parent);
+      u_mport = new("u_mport",this);
    endfunction : new
 
    //build_phase
@@ -66,7 +67,9 @@ class spi_svt_master_uvc extends uvm_agent;
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
 
-       magent_h[0].a_mport.connect(u_mport);
+      foreach(magent_h[i])begin
+         magent_h[i].a_mport.connect(u_mport);
+      end
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase

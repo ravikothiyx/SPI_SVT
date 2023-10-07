@@ -47,6 +47,7 @@ class spi_svt_master_agent extends uvm_agent;
    // Standard UVM Methods
    function new(string name = "spi_svt_master_agent",uvm_component parent);
       super.new(name,parent);
+      a_mport = new("a_mport",this);
    endfunction : new
 
    //build_phase

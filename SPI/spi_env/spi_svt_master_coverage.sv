@@ -2,8 +2,8 @@
 // File:          spi_svt_master_coverage.sv
 // Version:       v1
 // Developer:     Mayank
-// Project Name:  APB3 Protocol
-// Discription:   APB subscriber file 
+// Project Name:  SPI
+// Discription:   
 /////////////////////////////////////////////////
 
 //
