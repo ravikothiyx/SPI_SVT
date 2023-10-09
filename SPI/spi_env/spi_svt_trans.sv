@@ -7,10 +7,6 @@
 /////////////////////////////////////////////////
 
 
-//
-// Class Description:
-//
-//
 `ifndef SPI_SVT_TRANS_SV
 `define SPI_SVT_TRANS_SV
 

@@ -24,6 +24,7 @@ class spi_svt_slave_config extends uvm_object;
    int enable_cov = 1;
 
    /** UVM Factory Registration Macro*/
+
    `uvm_object_utils_begin(spi_svt_slave_config)
       `uvm_field_enum(uvm_active_passive_enum,is_active,UVM_DEFAULT)
       `uvm_field_int(no_of_agents,UVM_DEFAULT)
@@ -35,4 +36,5 @@ class spi_svt_slave_config extends uvm_object;
    endfunction : new
 
 endclass : spi_svt_slave_config
+
 `endif /** SPI_SVT_SLAVE_CONFIG_SV*/

@@ -5,26 +5,19 @@
 // Project Name:  
 // Discription:    
 /////////////////////////////////////////////////
-//
-// Class Description:
-//
-//
+
 `ifndef SPI_SVT_VIRTUAL_SEQUENCE_SV
 `define SPI_SVT_VIRTUAL_SEQUENCE_SV
 
 class spi_svt_virtual_sequence_vseq extends uvm_sequence#(uvm_sequence_item);
-   // UVM Factory Registration Macro
-   //
+  /**  UVM Factory Registration Macro*/
+   
    `uvm_object_utils(spi_svt_virtual_sequence_vseq);
 
-   //------------------------------------------
-   // Methods
-   //------------------------------------------
-
-   // Standard UVM Methods:  
+   /** Standard UVM Methods: */ 
    function new(string name = "spi_svt_virtual_sequence_vseq");
       super.new(name);
    endfunction : new
 
 endclass : spi_svt_virtual_sequence_vseq
-`endif //: SPI_SVT_VIRTUAL_SEQUENCE_SV
+`endif /** : SPI_SVT_VIRTUAL_SEQUENCE_SV */

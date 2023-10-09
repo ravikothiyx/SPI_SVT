@@ -14,6 +14,7 @@ class spi_svt_master_config extends uvm_object;
    /** Data Members*/ 
 
    /** Configure agent as active or passive*/   
+
    uvm_active_passive_enum is_active = UVM_ACTIVE;
  
    /** Number of agent in the environment*/
