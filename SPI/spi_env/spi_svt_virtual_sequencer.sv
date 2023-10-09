@@ -27,9 +27,11 @@ class spi_svt_virtual_sequencer extends uvm_sequencer#(uvm_sequence_item);
    //------------------------------------------
 
    //Standard UVM Methods: 
-   function new(string name = "spi_svt_virtual_sequencer",uvm_component parent);
-      super.new(name,parent);
-   endfunction : new
+   extern function new(string name = "spi_svt_virtual_sequencer",uvm_component parent);
 
 endclass : spi_svt_virtual_sequencer
 `endif //: SPI_SVT_VIRTUAL_SEQUENCER
+
+   function spi_svt_virtual_sequencer::new(string name = "spi_svt_virtual_sequencer",uvm_component parent);
+      super.new(name,parent);
+   endfunction : new

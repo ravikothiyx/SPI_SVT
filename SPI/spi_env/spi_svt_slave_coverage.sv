@@ -23,12 +23,25 @@ class spi_svt_slave_coverage extends uvm_subscriber#(spi_svt_trans);
 
    //Standard UVM Methods: 
    //
-   function new(string name = "spi_svt_slave_coverage",uvm_component parent);
+   extern function new(string name = "spi_svt_slave_coverage",uvm_component parent);
+
+   //build_phase
+   extern function void build_phase(uvm_phase phase);
+   
+   //write method
+   extern function void write(spi_svt_trans t);
+
+   //extract_phase
+   extern function void extract_phase(uvm_phase phase);
+
+endclass
+`endif //: SPI_SVT_SLAVE_COVERAGE 
+
+   function spi_svt_slave_coverage::new(string name = "spi_svt_slave_coverage",uvm_component parent);
       super.new(name,parent);
    endfunction : new
 
-   //build_phase
-   function void build_phase(uvm_phase phase);
+   function void spi_svt_slave_coverage::build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
 
@@ -37,12 +50,10 @@ class spi_svt_slave_coverage extends uvm_subscriber#(spi_svt_trans);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
 
-   //write method
-   function void write(spi_svt_trans t);
+   function void spi_svt_slave_coverage::write(spi_svt_trans t);
    endfunction : write
 
-   //extract_phase
-   function void extract_phase(uvm_phase phase);
+   function void spi_svt_slave_coverage::extract_phase(uvm_phase phase);
       super.extract_phase(phase);
       `uvm_info(get_type_name(),"START OF EXTRACT_PHASE",UVM_HIGH);
 
@@ -51,5 +62,4 @@ class spi_svt_slave_coverage extends uvm_subscriber#(spi_svt_trans);
       `uvm_info(get_type_name(),"END OF EXTRACT_PHASE",UVM_HIGH);
    endfunction : extract_phase
 
-endclass
-`endif //: SPI_SVT_SLAVE_COVERAGE
+
