@@ -20,15 +20,43 @@ class spi_svt_master_uvc extends uvm_agent;
    //
    `uvm_component_utils(spi_svt_master_uvc);
 
+   //master agent configuration class instance
+   //
+   spi_svt_master_config mcfg_h;
+
+   //master agent class instance
+   //
+   spi_svt_master_agent magent_h[];
+
+    //Analysis port
+   uvm_analysis_port#(spi_svt_trans) u_mport;
+
    // Standard UVM Methods
    function new(string name = "spi_svt_master_uvc",uvm_component parent);
       super.new(name,parent);
+      u_mport = new("u_mport",this);
    endfunction : new
 
    //build_phase
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
+      
+      //master agent config class creation
+      //
+      mcfg_h = spi_svt_master_config::type_id::create("mcfg_h");
+
+      //
+      //
+      uvm_config_db#(spi_svt_master_config)::set(this,"*","mcfg_h",mcfg_h);
+      
+      //creating master agent class
+      //
+      magent_h = new[mcfg_h.no_of_agents];
+      foreach(magent_h[i])
+      begin
+         magent_h[i] = spi_svt_master_agent::type_id::create($sformatf("magent_h[%0d]",i),this);
+      end
 
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
@@ -38,6 +66,10 @@ class spi_svt_master_uvc extends uvm_agent;
    function void connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
+
+      foreach(magent_h[i])begin
+         magent_h[i].a_mport.connect(u_mport);
+      end
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase

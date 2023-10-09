@@ -2,8 +2,8 @@
 // File:          spi_svt_master_coverage.sv
 // Version:       v1
 // Developer:     Mayank
-// Project Name:  APB3 Protocol
-// Discription:   APB subscriber file 
+// Project Name:  SPI
+// Discription:   
 /////////////////////////////////////////////////
 
 //
@@ -12,7 +12,7 @@
 //
 `ifndef SPI_SVT_MASTER_COVERAGE_SV
 `define SPI_SVT_MASTER_COVERAGE_SV
-class spi_svt_master_coverage extends uvm_subscriber;
+class spi_svt_master_coverage extends uvm_subscriber#(spi_svt_trans);
    // UVM Factory Registration Macro
    //   
    `uvm_component_utils(spi_svt_master_coverage);
@@ -37,6 +37,10 @@ class spi_svt_master_coverage extends uvm_subscriber;
 
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
+
+   //write method
+   function void write(spi_svt_trans t);
+   endfunction : write
 
    //extract_phase
    function void extract_phase(uvm_phase phase);

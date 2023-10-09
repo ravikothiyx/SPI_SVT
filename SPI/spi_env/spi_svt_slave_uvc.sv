@@ -20,16 +20,47 @@ class spi_svt_slave_uvc extends uvm_agent;
    //
    `uvm_component_utils(spi_svt_slave_uvc);
 
+   //slave config class instance
+   //
+   spi_svt_slave_config scfg_h;
+
+   //salve agent class instance
+   //
+   spi_svt_slave_agent sagent_h[];
+
+   //Analysis port
+   //
+   uvm_analysis_port#(spi_svt_trans) u_sport;
+
    // Standard UVM Methods
    function new(string name = "spi_svt_slave_uvc",uvm_component parent);
       super.new(name,parent);
+      u_sport = new("u_sport",this);
    endfunction : new
 
    //build_phase
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
+      
+      //creating slave configuration class
+      //
+      scfg_h = spi_svt_slave_config::type_id::create("scfg_h");
 
+      
+      //
+      //
+      uvm_config_db#(spi_svt_slave_config)::set(this,"*","scfg_h",scfg_h);
+
+      //creating slave agent
+      //
+      sagent_h = new[scfg_h.no_of_agents];
+
+      foreach(sagent_h[i])
+      begin
+         sagent_h[i] = spi_svt_slave_agent::type_id::create($sformatf("sagent_h[%0d]",i),this);
+      end
+      
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
@@ -38,6 +69,11 @@ class spi_svt_slave_uvc extends uvm_agent;
    function void connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
+       
+      foreach(sagent_h[i])begin
+         sagent_h[i].a_sport.connect(u_sport);
+      end 
+
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase

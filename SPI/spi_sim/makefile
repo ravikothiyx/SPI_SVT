@@ -1,7 +1,6 @@
 #makefile
 
 PKG		= ..\spi_test\spi_svt_pkg.sv
-#DEFINE  = ..\ENV\apb_defines.sv
 INCLUDE = +incdir+..\spi_env +incdir+..\spi_test
 TOP 	= ..\spi_top\spi_svt_top.sv
 TOP_N 	= spi_svt_top
@@ -17,5 +16,8 @@ comp:
 
 #To run the simulation in questasim
 sim:
-	vsim -novopt $(TOP_N) +UVM_TESTNAME=
+	vsim -novopt $(TOP_N) -do "run -all; exit"
 
+#To run the simulation in command prompt
+sim_c:
+	vsim -novopt $(TOP_N) -c -do "run -all; exit"
