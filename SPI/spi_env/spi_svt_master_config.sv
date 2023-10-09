@@ -6,21 +6,15 @@
 // Discription:
 /////////////////////////////////////////////////
 
-
-//
-// Class Description:
-//
-//
 `ifndef SPI_SVT_MASTER_CONFIG_SV
 `define SPI_SVT_MASTER_CONFIG_SV
 
 class spi_svt_master_config extends uvm_object;
  
-   //------------------------------------------
-   // Data Members 
-   //------------------------------------------  
+   /** Data Members*/ 
+   
 
-   //configure agent as active or passive   
+   /**configure agent as active or passiv   
    uvm_active_passive_enum is_active = UVM_ACTIVE;
 
    //number of agent in the environment
