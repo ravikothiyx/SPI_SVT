@@ -72,7 +72,6 @@ endclass : spi_svt_slave_uvc
    endfunction : build_phase
 
    /**connect_phase*/
-
    function void spi_svt_slave_uvc::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);

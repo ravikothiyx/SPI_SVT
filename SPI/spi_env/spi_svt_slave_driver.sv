@@ -13,7 +13,7 @@ class spi_svt_slave_driver extends uvm_driver#(spi_svt_trans);
    
    /**UVM Factory Registration Macro*/
    `uvm_component_utils(spi_svt_slave_driver);
-
+   
    /**Standard UVM Methods*/
    extern function new(string name = "spi_svt_slave_driver",uvm_component parent);
 
@@ -56,4 +56,3 @@ endclass : spi_svt_slave_driver
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
-

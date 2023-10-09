@@ -25,4 +25,3 @@ endclass : spi_svt_virtual_sequence_vseq
    function spi_svt_virtual_sequence_vseq::new(string name = "spi_svt_virtual_sequence_vseq");
       super.new(name);
    endfunction : new
-

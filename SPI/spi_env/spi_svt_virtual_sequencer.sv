@@ -30,4 +30,3 @@ endclass : spi_svt_virtual_sequencer
    function spi_svt_virtual_sequencer::new(string name = "spi_svt_virtual_sequencer",uvm_component parent);
       super.new(name,parent);
    endfunction : new
-

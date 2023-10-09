@@ -41,5 +41,3 @@ endclass : spi_svt_slave_config
    function spi_svt_slave_config::new(string name = "spi_svt_slave_config");
       super.new(name);
    endfunction : new
-
-

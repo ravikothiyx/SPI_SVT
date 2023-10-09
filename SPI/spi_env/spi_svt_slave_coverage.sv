@@ -29,8 +29,6 @@ class spi_svt_slave_coverage extends uvm_subscriber#(spi_svt_trans);
 endclass
 `endif /**: SPI_SVT_SLAVE_COVERAGE*/
 
-   /**Methods*/
-
    /**Standard UVM Methods:*/
    function spi_svt_slave_coverage::new(string name = "spi_svt_slave_coverage",uvm_component parent);
       super.new(name,parent);

@@ -61,4 +61,3 @@ endclass : spi_svt_slave_monitor
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
-
