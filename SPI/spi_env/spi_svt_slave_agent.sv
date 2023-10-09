@@ -63,9 +63,12 @@ class spi_svt_slave_agent extends uvm_agent;
       /**creating slave monitor class*/
       smon_h = spi_svt_slave_monitor::type_id::create("smon_h",this);
 
-      /**creating slave coverage class*/
-      scov_h = spi_svt_slave_coverage::type_id::create("scov_h",this);
-      
+
+      /** creating slave coverage class*/
+      if(scfg_h.enable_cov)begin
+         scov_h = spi_svt_slave_coverage::type_id::create("scov_h",this);
+      end/** if*/
+
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
@@ -80,9 +83,12 @@ class spi_svt_slave_agent extends uvm_agent;
          sdrv_h.seq_item_port.connect(sseqr_h.seq_item_export);
       end 
 
-       /**Analysis port connection*/
-       smon_h.item_collected_port.connect(a_sport);
-       smon_h.item_collected_port.connect(scov_h.analysis_export);
+      //Analysis port connection
+      smon_h.item_collected_port.connect(a_sport);
+      if(scfg_h.enable_cov)begin
+         smon_h.item_collected_port.connect(scov_h.analysis_export);
+      end /** if*/
+
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase
