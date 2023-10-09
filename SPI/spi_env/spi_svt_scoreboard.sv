@@ -34,7 +34,6 @@ class spi_svt_scoreboard extends uvm_scoreboard;
       smon_imp = new("smon_imp",this);
    endfunction : new
 
-<<<<<<< HEAD
    /** Write method of the master monitor*/
    function void write_spi_svt_mas_mon(spi_svt_trans trans);
    endfunction : write_spi_svt_mas_mon 
@@ -44,15 +43,6 @@ class spi_svt_scoreboard extends uvm_scoreboard;
    endfunction : write_spi_svt_slv_mon
 
    /** Run_phase*/
-=======
-   function void write_spi_svt_mas_mon(spi_svt_trans trans);
-      
-   endfunction : write_spi_svt_mas_mon 
-
-   function void write_spi_svt_slv_mon(spi_svt_trans trans);
-   endfunction : write_spi_svt_slv_mon
-   //run_phase
->>>>>>> ca595c3c8e7b85092f7ac4e5a5dea8a1b54e242b
    task run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);

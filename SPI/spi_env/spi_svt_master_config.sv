@@ -20,7 +20,7 @@ class spi_svt_master_config extends uvm_object;
    int no_of_agents = 1;
 
    /** Enable coverage*/
-   int enable_cov = 0;
+   int enable_cov = 1;
 
    /** UVM Factory Registration Macro*/
    `uvm_object_utils_begin(spi_svt_master_config)

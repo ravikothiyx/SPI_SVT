@@ -56,10 +56,7 @@ class spi_svt_master_uvc extends uvm_agent;
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
 
-<<<<<<< HEAD
       /** Connecting master agent*/
-=======
->>>>>>> ca595c3c8e7b85092f7ac4e5a5dea8a1b54e242b
       foreach(magent_h[i])begin
          magent_h[i].a_mport.connect(u_mport);
       end
