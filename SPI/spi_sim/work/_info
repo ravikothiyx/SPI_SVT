@@ -1,0 +1,153 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dL:/SPI_SVT/SPI/spi_sim
+Yspi_svt_inf
+Z1 DXx6 sv_std 3 std 0 22 WmjPaeP=7F5?QFXzJ>D[Q2
+!s110 1696841480
+!i10b 1
+!s100 TZ6EgS5N?F2VKT1]E9Eif1
+IBVUk31laTU=2fo>h_kYKn0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+!s105 spi_svt_pkg_sv_unit
+S1
+R0
+w1696502696
+8..\spi_env/spi_svt_inf.sv
+F..\spi_env/spi_svt_inf.sv
+L0 15
+Z3 OL;L;10.4e;61
+r1
+!s85 0
+31
+Z4 !s108 1696841480.000000
+Z5 !s107 ..\spi_test/spi_svt_base_test.sv|..\spi_env/spi_svt_virtual_sequence.sv|..\spi_env/spi_svt_env.sv|..\spi_env/spi_svt_env_config.sv|..\spi_env/spi_svt_virtual_sequencer.sv|..\spi_env/spi_svt_scoreboard.sv|..\spi_env/spi_svt_slave_uvc.sv|..\spi_env/spi_svt_slave_agent.sv|..\spi_env/spi_svt_slave_coverage.sv|..\spi_env/spi_svt_slave_monitor.sv|..\spi_env/spi_svt_slave_driver.sv|..\spi_env/spi_svt_master_uvc.sv|..\spi_env/spi_svt_master_agent.sv|..\spi_env/spi_svt_master_coverage.sv|..\spi_env/spi_svt_master_monitor.sv|..\spi_env/spi_svt_master_driver.sv|..\spi_env/spi_svt_slave_sequencer.sv|..\spi_env/spi_svt_master_sequencer.sv|..\spi_env/spi_svt_trans.sv|..\spi_env/spi_svt_slave_config.sv|..\spi_env/spi_svt_master_config.sv|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh|C:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh|..\spi_env/spi_svt_inf.sv|..\spi_top\spi_svt_top.sv|..\spi_test\spi_svt_pkg.sv|
+Z6 !s90 ..\spi_test\spi_svt_pkg.sv|..\spi_top\spi_svt_top.sv|+incdir+..\spi_env|+incdir+..\spi_test|
+!i113 0
+Z7 o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z8 !s92 {+incdir+..\spi_env} {+incdir+..\spi_test} -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Xspi_svt_pkg
+R1
+Z9 DXx6 mtiUvm 7 uvm_pkg 0 22 02@e1POGTiN=><];7MkU?0
+!s110 1696841481
+!i10b 1
+!s100 ZWjfYc>G>4f;SfROf4gBl1
+I>FA<]Nbid`S2n9`hOB>Sc0
+V>FA<]Nbid`S2n9`hOB>Sc0
+S1
+R0
+w1696841477
+8..\spi_test\spi_svt_pkg.sv
+F..\spi_test\spi_svt_pkg.sv
+Z10 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/uvm_macros.svh
+Z11 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_version_defines.svh
+Z12 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_message_defines.svh
+Z13 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_phase_defines.svh
+Z14 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_object_defines.svh
+Z15 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_printer_defines.svh
+Z16 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_tlm_defines.svh
+Z17 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/tlm1/uvm_tlm_imps.svh
+Z18 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_sequence_defines.svh
+Z19 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_callback_defines.svh
+Z20 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_reg_defines.svh
+Z21 FC:/questasim64_10.4e/uvm-1.1d/../verilog_src/uvm-1.1d/src/macros/uvm_deprecated_defines.svh
+F..\spi_env/spi_svt_master_config.sv
+F..\spi_env/spi_svt_slave_config.sv
+F..\spi_env/spi_svt_trans.sv
+F..\spi_env/spi_svt_master_sequencer.sv
+F..\spi_env/spi_svt_slave_sequencer.sv
+F..\spi_env/spi_svt_master_driver.sv
+F..\spi_env/spi_svt_master_monitor.sv
+F..\spi_env/spi_svt_master_coverage.sv
+F..\spi_env/spi_svt_master_agent.sv
+F..\spi_env/spi_svt_master_uvc.sv
+F..\spi_env/spi_svt_slave_driver.sv
+F..\spi_env/spi_svt_slave_monitor.sv
+F..\spi_env/spi_svt_slave_coverage.sv
+F..\spi_env/spi_svt_slave_agent.sv
+F..\spi_env/spi_svt_slave_uvc.sv
+F..\spi_env/spi_svt_scoreboard.sv
+F..\spi_env/spi_svt_virtual_sequencer.sv
+F..\spi_env/spi_svt_env_config.sv
+F..\spi_env/spi_svt_env.sv
+F..\spi_env/spi_svt_virtual_sequence.sv
+F..\spi_test/spi_svt_base_test.sv
+L0 17
+R3
+r1
+!s85 0
+31
+R4
+R5
+R6
+!i113 0
+R7
+R8
+vspi_svt_top
+R1
+R9
+DXx4 work 19 spi_svt_top_sv_unit 0 22 he]8ffc3Li>DElbB4^VB`3
+DXx4 work 11 spi_svt_pkg 0 22 >FA<]Nbid`S2n9`hOB>Sc0
+R2
+r1
+!s85 0
+31
+!i10b 1
+!s100 8T:dh159`9C?C?`i8g1oF1
+IYceNAk:e^=6JQOADVo6lm3
+!s105 spi_svt_top_sv_unit
+S1
+R0
+Z22 w1696834027
+Z23 8..\spi_top\spi_svt_top.sv
+Z24 F..\spi_top\spi_svt_top.sv
+L0 13
+R3
+R4
+R5
+R6
+!i113 0
+R7
+R8
+Xspi_svt_top_sv_unit
+R1
+R9
+Vhe]8ffc3Li>DElbB4^VB`3
+r1
+!s85 0
+31
+!i10b 1
+!s100 NFoFElhPZGlmJILn]G0D60
+Ihe]8ffc3Li>DElbB4^VB`3
+!i103 1
+S1
+R0
+R22
+R23
+R24
+R10
+R11
+R12
+R13
+R14
+R15
+R16
+R17
+R18
+R19
+R20
+R21
+L0 10
+R3
+R4
+R5
+R6
+!i113 0
+R7
+R8

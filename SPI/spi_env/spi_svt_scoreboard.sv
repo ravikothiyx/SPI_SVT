@@ -35,24 +35,36 @@ class spi_svt_scoreboard extends uvm_scoreboard;
    uvm_analysis_imp_spi_svt_slv_mon#(spi_svt_trans,spi_svt_scoreboard) smon_imp;
    
    // Standard UVM Methods
-   function new(string name = "spi_svt_scoreboard",uvm_component parent);
+   extern function new(string name = "spi_svt_scoreboard",uvm_component parent);
+
+   extern function void write_spi_svt_mas_mon(spi_svt_trans trans);
+
+   extern function void write_spi_svt_slv_mon(spi_svt_trans trans);
+
+   //run_phase
+   extern task run_phase(uvm_phase phase);
+
+endclass : spi_svt_scoreboard
+`endif //: SPI_SVT_SCOREBOARD_SV
+
+   // Standard UVM Methods
+   function spi_svt_scoreboard::new(string name = "spi_svt_scoreboard",uvm_component parent);
       super.new(name,parent);
       //constructing the implementation ports
       mmon_imp = new("mmon_imp",this);
       smon_imp = new("smon_imp",this);
    endfunction : new
 
-   function void write_spi_svt_mas_mon(spi_svt_trans trans);
+   function void spi_svt_scoreboard::write_spi_svt_mas_mon(spi_svt_trans trans);
       
    endfunction : write_spi_svt_mas_mon 
 
-   function void write_spi_svt_slv_mon(spi_svt_trans trans);
+   function void spi_svt_scoreboard::write_spi_svt_slv_mon(spi_svt_trans trans);
    endfunction : write_spi_svt_slv_mon
+
    //run_phase
-   task run_phase(uvm_phase phase);
+   task spi_svt_scoreboard::run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
-endclass : spi_svt_scoreboard
-`endif //: SPI_SVT_SCOREBOARD_SV

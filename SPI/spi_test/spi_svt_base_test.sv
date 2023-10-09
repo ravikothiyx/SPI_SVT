@@ -32,12 +32,28 @@ class spi_svt_base_test extends uvm_test;
    //------------------------------------------
 
    // Standard UVM Methods:  
-   function new(string name = "spi_svt_base_test",uvm_component parent);
+   extern function new(string name = "spi_svt_base_test",uvm_component parent);
+
+   //build_phase
+   extern function void build_phase(uvm_phase phase);
+
+   //End_of_elaboration_phase
+   extern function void end_of_elaboration_phase(uvm_phase phase);
+
+   //run phase
+   extern task run_phase(uvm_phase phase);
+
+endclass : spi_svt_base_test
+
+`endif //: SPI_SVT_BASE_TEST_SV
+
+   // Standard UVM Methods:  
+   function spi_svt_base_test::new(string name = "spi_svt_base_test",uvm_component parent);
       super.new(name,parent);
    endfunction : new
 
    //build_phase
-   function void build_phase(uvm_phase phase);
+   function void spi_svt_base_test::build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
 
@@ -57,7 +73,7 @@ class spi_svt_base_test extends uvm_test;
    endfunction : build_phase
 
    //End_of_elaboration_phase
-   function void end_of_elaboration_phase(uvm_phase phase);
+   function void spi_svt_base_test::end_of_elaboration_phase(uvm_phase phase);
       super.end_of_elaboration_phase(phase);
       `uvm_info(get_type_name(),"INSIDE END_OF_ELABORATION_PHASE",UVM_FULL);
       //Displaying Topology
@@ -66,7 +82,7 @@ class spi_svt_base_test extends uvm_test;
    endfunction : end_of_elaboration_phase
 
    //run phase
-   task run_phase(uvm_phase phase);
+   task spi_svt_base_test::run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
       phase.raise_objection(this);
 
@@ -75,6 +91,3 @@ class spi_svt_base_test extends uvm_test;
 
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
-endclass : spi_svt_base_test
-
-`endif //: SPI_SVT_BASE_TEST_SV
