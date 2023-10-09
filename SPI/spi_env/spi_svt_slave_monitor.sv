@@ -20,9 +20,14 @@ class spi_svt_slave_monitor extends uvm_monitor;
    //
    `uvm_component_utils(spi_svt_slave_monitor);
 
+   //Analysis port for scoreaboard and coverage collector
+   //
+   uvm_analysis_port#(spi_svt_trans) item_collected_port;
+
    // Standard UVM Methods
    function new(string name = "spi_svt_slave_monitor",uvm_component parent);
       super.new(name,parent);
+      item_collected_port = new("item_collected_port",this);
    endfunction : new
 
    //build_phase

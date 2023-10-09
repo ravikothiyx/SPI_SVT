@@ -2,33 +2,23 @@
 // File:          spi_svt_master_coverage.sv
 // Version:       v1
 // Developer:     Mayank
-// Project Name:  APB3 Protocol
-// Discription:   APB subscriber file 
+// Project Name:  SPI
+// Discription:   
 /////////////////////////////////////////////////
 
-//
-// Class Description:
-//
-//
 `ifndef SPI_SVT_MASTER_COVERAGE_SV
 `define SPI_SVT_MASTER_COVERAGE_SV
-class spi_svt_master_coverage extends uvm_subscriber;
-   // UVM Factory Registration Macro
-   //   
+class spi_svt_master_coverage extends uvm_subscriber#(spi_svt_trans);
+
+   /** UVM Factory Registration Macro*/
    `uvm_component_utils(spi_svt_master_coverage);
-
    
-   //------------------------------------------
-   // Methods
-   //------------------------------------------
-
-   //Standard UVM Methods: 
-   //
+   /** Standard UVM Methods*/
    function new(string name = "spi_svt_master_coverage",uvm_component parent);
       super.new(name,parent);
    endfunction : new
 
-   //build_phase
+   /** Build_phase*/
    function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
@@ -38,7 +28,11 @@ class spi_svt_master_coverage extends uvm_subscriber;
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
 
-   //extract_phase
+   /** Write method*/
+   function void write(spi_svt_trans t);
+   endfunction : write
+
+   /** Extract_phase*/
    function void extract_phase(uvm_phase phase);
       super.extract_phase(phase);
       `uvm_info(get_type_name(),"START OF EXTRACT_PHASE",UVM_HIGH);
@@ -49,4 +43,4 @@ class spi_svt_master_coverage extends uvm_subscriber;
    endfunction : extract_phase
 
 endclass
-`endif //: SPI_SVT_MASTER_COVERAGE
+`endif /** SPI_SVT_MASTER_COVERAGE*/
