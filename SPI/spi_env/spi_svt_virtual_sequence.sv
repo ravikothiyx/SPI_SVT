@@ -15,9 +15,13 @@ class spi_svt_virtual_sequence_vseq extends uvm_sequence#(uvm_sequence_item);
    `uvm_object_utils(spi_svt_virtual_sequence_vseq);
 
    /** Standard UVM Methods: */ 
-   function new(string name = "spi_svt_virtual_sequence_vseq");
-      super.new(name);
-   endfunction : new
+   extern function new(string name = "spi_svt_virtual_sequence_vseq");
 
 endclass : spi_svt_virtual_sequence_vseq
 `endif /** : SPI_SVT_VIRTUAL_SEQUENCE_SV */
+
+
+   /** Standard UVM Methods: */ 
+   function spi_svt_virtual_sequence_vseq::new(string name = "spi_svt_virtual_sequence_vseq");
+      super.new(name);
+   endfunction : new

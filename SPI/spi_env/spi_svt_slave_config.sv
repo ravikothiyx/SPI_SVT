@@ -31,10 +31,13 @@ class spi_svt_slave_config extends uvm_object;
     `uvm_object_utils_end
 
    /** Standard UVM Methods*/
-   function new(string name = "spi_svt_slave_config");
-      super.new(name);
-   endfunction : new
+   extern function new(string name = "spi_svt_slave_config");
 
 endclass : spi_svt_slave_config
 
 `endif /** SPI_SVT_SLAVE_CONFIG_SV*/
+
+   /** Standard UVM Methods*/
+   function spi_svt_slave_config::new(string name = "spi_svt_slave_config");
+      super.new(name);
+   endfunction : new
