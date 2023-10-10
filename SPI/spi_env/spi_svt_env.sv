@@ -44,7 +44,6 @@ endclass : spi_svt_env
 `endif //: SPI_SVT_ENV_SV
 
    /** Standard UVM Methods*/
-   function new(string name = "spi_svt_env",uvm_component parent);
    function spi_svt_env::new(string name = "spi_svt_env",uvm_component parent);
       super.new(name,parent);
    endfunction : new

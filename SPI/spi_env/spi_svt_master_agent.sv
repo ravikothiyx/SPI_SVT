@@ -37,7 +37,7 @@ class spi_svt_master_agent extends uvm_agent;
    /** Analysis port for monitor to scoreboard*/
    uvm_analysis_port#(spi_svt_trans) a_mport;
 
-<<<<<<< HEAD
+
    /** Standard UVM Methods*/
    extern function new(string name = "spi_svt_master_agent",uvm_component parent);
 
