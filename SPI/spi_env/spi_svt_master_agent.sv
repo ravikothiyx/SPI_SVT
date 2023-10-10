@@ -37,14 +37,30 @@ class spi_svt_master_agent extends uvm_agent;
    /** Analysis port for monitor to scoreboard*/
    uvm_analysis_port#(spi_svt_trans) a_mport;
 
+<<<<<<< HEAD
    /** Standard UVM Methods*/
-   function new(string name = "spi_svt_master_agent",uvm_component parent);
+   extern function new(string name = "spi_svt_master_agent",uvm_component parent);
+
+   /** Build_phase*/
+   extern function void build_phase(uvm_phase phase);
+
+   /** Connect_phase*/
+   extern function void connect_phase(uvm_phase phase);
+   
+   /** Run_phase*/
+   extern task run_phase(uvm_phase phase);
+
+endclass : spi_svt_master_agent
+`endif //: SPI_SVT_MASTER_AGENT_SV
+
+   /** Standard UVM Methods*/
+   function spi_svt_master_agent::new(string name = "spi_svt_master_agent",uvm_component parent);
       super.new(name,parent);
       a_mport = new("a_mport",this);
    endfunction : new
 
-   /** Build_phase**/
-   function void build_phase(uvm_phase phase);
+   /** Build_phase*/
+   function void spi_svt_master_agent::build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
 
@@ -75,7 +91,7 @@ class spi_svt_master_agent extends uvm_agent;
    endfunction : build_phase
 
    /** Connect_phase*/
-   function void connect_phase(uvm_phase phase);
+   function void spi_svt_master_agent::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
       
@@ -96,10 +112,8 @@ class spi_svt_master_agent extends uvm_agent;
    endfunction : connect_phase
    
    /** Run_phase*/
-   task run_phase(uvm_phase phase);
+   task spi_svt_master_agent::run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
-endclass : spi_svt_master_agent
-`endif /** SPI_SVT_MASTER_AGENT_SV*/

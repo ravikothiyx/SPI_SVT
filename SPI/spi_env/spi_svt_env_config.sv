@@ -15,12 +15,16 @@ class spi_svt_env_config extends uvm_object;
    /** UVM Factory Registration Macro*/
    `uvm_object_utils(spi_svt_env_config);
 
-   /** To enable or disable the scoreboard**/
+   /** To enable or disable the scoreboard*/
    int enable_sb = 1;
 
    /** Standard UVM Methods*/
-   function new(string name = "spi_svt_env_config");
+   extern function new(string name = "spi_svt_env_config");
+
+endclass : spi_svt_env_config
+`endif //: SPI_SVT_ENV_CONFIG_SV
+
+   /** Standard UVM Methods*/
+   function spi_svt_env_config::new(string name = "spi_svt_env_config");
       super.new(name);
    endfunction : new
-endclass : spi_svt_env_config
-`endif /** SPI_SVT_ENV_CONFIG_SV*/
