@@ -15,13 +15,13 @@ class spi_svt_master_uvc extends uvm_agent;
    `uvm_component_utils(spi_svt_master_uvc);
 
    /** Master agent configuration class instance*/
-   spi_svt_master_config mcfg_h;
+   spi_svt_master_config mstr_cfg_h;
 
    /** Master agent class instance*/
-   spi_svt_master_agent magent_h[];
+   spi_svt_master_agent mstr_agent_h[];
 
    /** Analysis port foe the agent to uvc connection*/
-   uvm_analysis_port#(spi_svt_trans) u_mport;
+   uvm_analysis_port#(spi_svt_trans) mstr_uvc_port;
 
    /** Standard UVM Methods*/
    extern function new(string name = "spi_svt_master_uvc",uvm_component parent);
@@ -41,7 +41,7 @@ endclass : spi_svt_master_uvc
    /** Standard UVM Methods*/
    function spi_svt_master_uvc::new(string name = "spi_svt_master_uvc",uvm_component parent);
       super.new(name,parent);
-      u_mport = new("u_mport",this);
+      mstr_uvc_port = new("mstr_uvc_port",this);
    endfunction : new
 
    /** Build_phase*/
@@ -50,16 +50,16 @@ endclass : spi_svt_master_uvc
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
       
       /** Master agent config class creation*/
-      mcfg_h = spi_svt_master_config::type_id::create("mcfg_h");
+      mstr_cfg_h = spi_svt_master_config::type_id::create("mstr_cfg_h");
 
       /** Retriving the master configuration class*/
-      uvm_config_db#(spi_svt_master_config)::set(this,"*","mcfg_h",mcfg_h);
+      uvm_config_db#(spi_svt_master_config)::set(this,"*","mstr_cfg_h",mstr_cfg_h);
       
       /** Creating master agent class*/
-      magent_h = new[mcfg_h.no_of_agents];
-      foreach(magent_h[i])
+      mstr_agent_h = new[mstr_cfg_h.no_of_agents];
+      foreach(mstr_agent_h[i])
       begin
-         magent_h[i] = spi_svt_master_agent::type_id::create($sformatf("magent_h[%0d]",i),this);
+         mstr_agent_h[i] = spi_svt_master_agent::type_id::create($sformatf("mstr_agent_h[%0d]",i),this);
       end
 
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
@@ -72,8 +72,8 @@ endclass : spi_svt_master_uvc
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
 
       /** Connecting master agent*/
-      foreach(magent_h[i])begin
-         magent_h[i].a_mport.connect(u_mport);
+      foreach(mstr_agent_h[i])begin
+         mstr_agent_h[i].mstr_agent_port.connect(mstr_uvc_port);
       end
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);

@@ -18,18 +18,18 @@ class spi_svt_scoreboard extends uvm_scoreboard;
    spi_svt_trans trans_h;
 
    /** Analysis implementation for the master and slave monitor*/
-   `uvm_analysis_imp_decl(_spi_svt_mas_mon)
+   `uvm_analysis_imp_decl(_spi_svt_mstr_mon)
    `uvm_analysis_imp_decl(_spi_svt_slv_mon)
 
    /** Analysis implementation port declaration*/
-   uvm_analysis_imp_spi_svt_mas_mon#(spi_svt_trans,spi_svt_scoreboard) mmon_imp;
-   uvm_analysis_imp_spi_svt_slv_mon#(spi_svt_trans,spi_svt_scoreboard) smon_imp;
+   uvm_analysis_imp_spi_svt_mstr_mon#(spi_svt_trans,spi_svt_scoreboard) mstr_mon_imp;
+   uvm_analysis_imp_spi_svt_slv_mon#(spi_svt_trans,spi_svt_scoreboard) slv_mon_imp;
    
    /** Standard UVM Methods*/
    extern function new(string name = "spi_svt_scoreboard",uvm_component parent);
 
    /** Write method of the master monitor*/
-   extern function void write_spi_svt_mas_mon(spi_svt_trans trans);
+   extern function void write_spi_svt_mstr_mon(spi_svt_trans trans);
 
    /** Write method of the slave monitor*/
    extern function void write_spi_svt_slv_mon(spi_svt_trans trans);
@@ -45,13 +45,13 @@ endclass : spi_svt_scoreboard
       super.new(name,parent);
      
       /** Constructing the implementation ports*/
-      mmon_imp = new("mmon_imp",this);
-      smon_imp = new("smon_imp",this);
+      mstr_mon_imp = new("mstr_mon_imp",this);
+      slv_mon_imp = new("slv_mon_imp",this);
    endfunction : new
 
    /** Write method of the master monitor*/
-   function void spi_svt_scoreboard::write_spi_svt_mas_mon(spi_svt_trans trans);
-   endfunction : write_spi_svt_mas_mon 
+   function void spi_svt_scoreboard::write_spi_svt_mstr_mon(spi_svt_trans trans);
+   endfunction : write_spi_svt_mstr_mon 
 
    /** Write method of the slave monitor*/
    function void spi_svt_scoreboard::write_spi_svt_slv_mon(spi_svt_trans trans);

@@ -42,7 +42,6 @@ endclass : spi_svt_slave_monitor
    function void spi_svt_slave_monitor::build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
-
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
    endfunction : build_phase
