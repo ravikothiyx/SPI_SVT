@@ -15,7 +15,7 @@ class spi_svt_base_test extends uvm_test;
    `uvm_component_utils(spi_svt_base_test);
 
    /** Envoronment config class instance */
-   spi_svt_env_config ecfg_h;
+   spi_svt_env_config env_cfg_h;
 
    /** env class instance */
    spi_svt_env env_h;
@@ -49,9 +49,9 @@ endclass : spi_svt_base_test
       `uvm_info(get_type_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
 
       /** Creating environment config */
-      ecfg_h = spi_svt_env_config::type_id::create("ecfg_h");
+      env_cfg_h = spi_svt_env_config::type_id::create("env_cfg_h");
       
-      uvm_config_db#(spi_svt_env_config)::set(this,"*","ecfg_h",ecfg_h);
+      uvm_config_db#(spi_svt_env_config)::set(this,"*","env_cfg_h",env_cfg_h);
 
       /** Creating the Environment */
       env_h = spi_svt_env::type_id::create("env_h",this);

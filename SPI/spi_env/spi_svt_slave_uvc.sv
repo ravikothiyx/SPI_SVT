@@ -16,13 +16,13 @@ class spi_svt_slave_uvc extends uvm_agent;
    `uvm_component_utils(spi_svt_slave_uvc);
 
    /**slave config class instance*/
-   spi_svt_slave_config scfg_h;
+   spi_svt_slave_config slv_cfg_h;
 
    /**salve agent class instance*/
-   spi_svt_slave_agent sagent_h[];
+   spi_svt_slave_agent slv_agent_h[];
 
    /**Analysis port*/
-   uvm_analysis_port#(spi_svt_trans) u_sport;
+   uvm_analysis_port#(spi_svt_trans) slv_uvc_port;
 
    /**Standard UVM Methods*/
    extern function new(string name = "spi_svt_slave_uvc",uvm_component parent);
@@ -42,7 +42,7 @@ endclass : spi_svt_slave_uvc
    /**Standard UVM Methods*/
    function spi_svt_slave_uvc::new(string name = "spi_svt_slave_uvc",uvm_component parent);
       super.new(name,parent);
-      u_sport = new("u_sport",this);
+      slv_uvc_port = new("slv_uvc_port",this);
    endfunction : new
 
    /**build_phase*/
@@ -51,20 +51,20 @@ endclass : spi_svt_slave_uvc
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
       
       /**creating slave configuration class*/
-      scfg_h = spi_svt_slave_config::type_id::create("scfg_h");
+      slv_cfg_h = spi_svt_slave_config::type_id::create("slv_cfg_h");
 
       
       /** setting values for config data members*/
-      uvm_config_db#(spi_svt_slave_config)::set(this,"*","scfg_h",scfg_h);
+      uvm_config_db#(spi_svt_slave_config)::set(this,"*","slv_cfg_h",slv_cfg_h);
 
       /**creating slave agent*/
-      sagent_h = new[scfg_h.no_of_agents];
+      slv_agent_h = new[slv_cfg_h.no_of_agents];
 
       /** loop for creating numbers of slave agent*/
 
-      foreach(sagent_h[i])
+      foreach(slv_agent_h[i])
       begin
-         sagent_h[i] = spi_svt_slave_agent::type_id::create($sformatf("sagent_h[%0d]",i),this);
+         slv_agent_h[i] = spi_svt_slave_agent::type_id::create($sformatf("slv_agent_h[%0d]",i),this);
       end
       
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
@@ -76,8 +76,8 @@ endclass : spi_svt_slave_uvc
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
        
-      foreach(sagent_h[i])begin
-         sagent_h[i].a_sport.connect(u_sport);
+      foreach(slv_agent_h[i])begin
+         slv_agent_h[i].slv_agent_port.connect(slv_uvc_port);
       end 
 
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);

@@ -16,25 +16,25 @@ class spi_svt_slave_agent extends uvm_agent;
    `uvm_component_utils(spi_svt_slave_agent);
 
    /**slave sequencer instance*/
-   spi_svt_slave_sequencer sseqr_h;
+   spi_svt_slave_sequencer slv_seqr_h;
 
    /**slave driver instance*/
-   spi_svt_slave_driver sdrv_h;
+   spi_svt_slave_driver slv_drv_h;
 
    /**slave monitor instance**/
-   spi_svt_slave_monitor smon_h;
+   spi_svt_slave_monitor slv_mon_h;
 
    /**salve config class instance*/
-   spi_svt_slave_config scfg_h;
+   spi_svt_slave_config slv_cfg_h;
 
    /**slave coverage instance**/
-   spi_svt_slave_coverage scov_h;
+   spi_svt_slave_coverage slv_cov_h;
 
    /**slave config class instance*/
-   spi_svt_slave_config scvg_h;
+   spi_svt_slave_config slv_cvg_h;
 
    /**Analysis port*/
-   uvm_analysis_port#(spi_svt_trans) a_sport;
+   uvm_analysis_port#(spi_svt_trans) slv_agent_port;
 
    /** Standard UVM Methods*/
    extern function new(string name = "spi_svt_slave_agent",uvm_component parent);
@@ -53,7 +53,7 @@ endclass : spi_svt_slave_agent
    /** Standard UVM Methods*/
    function spi_svt_slave_agent::new(string name = "spi_svt_slave_agent",uvm_component parent);
       super.new(name,parent);
-      a_sport = new("a_sport",this);
+      slv_agent_port = new("slv_agent_port",this);
    endfunction : new
 
    /**build_phase*/
@@ -62,25 +62,24 @@ endclass : spi_svt_slave_agent
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
       
       /**getting the config class*/
-      if(!uvm_config_db#(spi_svt_slave_config)::get(this,"","scfg_h",scfg_h))
+      if(!uvm_config_db#(spi_svt_slave_config)::get(this,"","slv_cfg_h",slv_cfg_h))
          `uvm_fatal(get_full_name,"Not able to get the slave config");
 
       /**Checking Agent is ACTIVE or PASSIVE(ACTIVE then create)*/
-      if(scfg_h.is_active == UVM_ACTIVE) begin
+      if(slv_cfg_h.is_active == UVM_ACTIVE) begin
          /**creating slave sequencer class*/
-         sseqr_h = spi_svt_slave_sequencer::type_id::create("sseqr_h",this);
+         slv_seqr_h = spi_svt_slave_sequencer::type_id::create("slv_seqr_h",this);
 
          /**creating slave driver class*/
-         sdrv_h = spi_svt_slave_driver::type_id::create("sdrv_h",this);
+         slv_drv_h = spi_svt_slave_driver::type_id::create("slv_drv_h",this);
       end
 
       /**creating slave monitor class*/
-      smon_h = spi_svt_slave_monitor::type_id::create("smon_h",this);
-
+      slv_mon_h = spi_svt_slave_monitor::type_id::create("slv_mon_h",this);
 
       /** creating slave coverage class*/
-      if(scfg_h.enable_cov)begin
-         scov_h = spi_svt_slave_coverage::type_id::create("scov_h",this);
+      if(slv_cfg_h.enable_cov)begin
+         slv_cov_h = spi_svt_slave_coverage::type_id::create("slv_cov_h",this);
       end/** if*/
 
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
@@ -93,14 +92,14 @@ endclass : spi_svt_slave_agent
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
       
       /**Chekcing of Agent is ACTIVE or PASSive and then connect*/
-      if(scfg_h.is_active == UVM_ACTIVE) begin
-         sdrv_h.seq_item_port.connect(sseqr_h.seq_item_export);
+      if(slv_cfg_h.is_active == UVM_ACTIVE) begin
+         slv_drv_h.seq_item_port.connect(slv_seqr_h.seq_item_export);
       end 
 
       //Analysis port connection
-      smon_h.item_collected_port.connect(a_sport);
-      if(scfg_h.enable_cov)begin
-         smon_h.item_collected_port.connect(scov_h.analysis_export);
+      slv_mon_h.item_collected_port.connect(slv_agent_port);
+      if(slv_cfg_h.enable_cov)begin
+         slv_mon_h.item_collected_port.connect(slv_cov_h.analysis_export);
       end /** if*/
 
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
