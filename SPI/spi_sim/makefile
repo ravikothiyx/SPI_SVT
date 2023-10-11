@@ -1,9 +1,9 @@
 #makefile
 
-PKG		= ..\spi_test\spi_svt_pkg.sv
+PKG		= ..\spi_test\spi_uvc_pkg.sv
 INCLUDE = +incdir+..\spi_env +incdir+..\spi_test
-TOP 	= ..\spi_top\spi_svt_top.sv
-TOP_N 	= spi_svt_top
+TOP 	= ..\spi_top\spi_uvc_top.sv
+TOP_N 	= spi_uvc_top
 
 
 #To make a work file
