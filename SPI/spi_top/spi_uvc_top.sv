@@ -1,5 +1,5 @@
 //////////////////////////////////////////////// 
-// File:          spi_svt_top.sv
+// File:          spi_uvc_top.sv
 // Version:       v1
 // Developer:     Mayank
 // Project Name:  SPI
@@ -10,12 +10,12 @@
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 
-module spi_svt_top;
+module spi_uvc_top;
    /**importing the package*/
-   import spi_svt_pkg::*;
+   import spi_uvc_pkg::*;
 
    /**run_test method*/
    initial begin
-      run_test("spi_svt_base_test");
+      run_test("spi_uvc_base_test");
    end
-endmodule : spi_svt_top
+endmodule : spi_uvc_top

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////// 
-// File:          spi_svt_master_agent.sv
+// File:          spi_uvc_trans.sv
 // Version:       v1
 // Developer:     Harekrishna
 // Project Name:  SPI
@@ -7,14 +7,9 @@
 /////////////////////////////////////////////////
 
 
-//
-// Class Description:
-//
-//
-`ifndef SPI_SVT_MASTER_TRANS_SV
-`define SPI_SVT_MASTER_TRANS_SV
+`ifndef SPI_UVC_TRANS_SV
+`define SPI_UVC_TRANS_SV
 
-class spi_svt_master_trans extends uvm_sequence_item;
-
+class spi_uvc_trans extends uvm_sequence_item;
 endclass
 `endif 
