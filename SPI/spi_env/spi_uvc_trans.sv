@@ -11,5 +11,6 @@
 `define SPI_UVC_TRANS_SV
 
 class spi_uvc_trans extends uvm_sequence_item;
+
 endclass
 `endif 
