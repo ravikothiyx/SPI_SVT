@@ -21,24 +21,29 @@ package spi_uvc_pkg;
    `include "uvm_macros.svh"
    
    /** Agent configuration file*/
+   `include "spi_uvc_master_config.sv"
+   `include "spi_uvc_slave_config.sv"
    `include "spi_uvc_env_config.sv"
-   `include "spi_uvc_agent_config.sv"
    `include "spi_uvc_reg_config.sv"
    
-   /** Transaction files*/ 
+   /** Master transaction files*/ 
    `include "spi_uvc_trans.sv"
 
-   /** Sequencer file*/
-   `include "spi_uvc_sequencer.sv"
+   /** Master and  slave sequencer files*/
+   `include "spi_uvc_master_sequencer.sv"
+   `include "spi_uvc_slave_sequencer.sv"
 
-   /** Agent files*/
-   `include "spi_uvc_driver.sv"
-   `include "spi_uvc_monitor.sv"
-   `include "spi_uvc_coverage.sv"
-   `include "spi_uvc_agent.sv"
+   /** Master files*/
+   `include "spi_uvc_master_driver.sv"
+   `include "spi_uvc_master_monitor.sv"
+   `include "spi_uvc_master_coverage.sv"
+   `include "spi_uvc_master_agent.sv"
 
-   /** Scoreboard*/
-   `include "spi_uvc_scoreboard.sv"
+   /** Slave files*/
+   `include "spi_uvc_slave_driver.sv"
+   `include "spi_uvc_slave_monitor.sv"
+   `include "spi_uvc_slave_coverage.sv"
+   `include "spi_uvc_slave_agent.sv"
 
    /** Virtual sequencer*/
    `include "spi_uvc_virtual_sequencer.sv"
@@ -49,6 +54,9 @@ package spi_uvc_pkg;
    /** Virtual sequence*/
    `include "spi_uvc_virtual_sequence.sv"
    
+   /** Checker*/ 
+   `include "spi_uvc_checker.sv"
+
    /** Testcases*/  
    `include "spi_uvc_base_test.sv"
 endpackage : spi_uvc_pkg
