@@ -6,8 +6,8 @@
 // Discription:
 /////////////////////////////////////////////////
 
-`ifndef SPI_UVC_MASTER_MONITOR_SV
-`define SPI_UVC_MASTER_MONITOR_SV
+`ifndef SPI_UVC_BUS_MONITOR_SV
+`define SPI_UVC_BUS_MONITOR_SV
 
 class spi_uvc_bus_monitor extends uvm_monitor;
    
@@ -15,7 +15,9 @@ class spi_uvc_bus_monitor extends uvm_monitor;
    `uvm_component_utils(spi_uvc_bus_monitor);
 
    /** Standard UVM Methods*/
-   extern function new(string name = "spi_uvc_bus_monitor",uvm_component parent);
+   function new(string name = "spi_uvc_bus_monitor",uvm_component parent);
+      super.new(name,parent);
+   endfunction : new
 
    /** Build_phase*/
    extern function void build_phase(uvm_phase phase);
@@ -27,12 +29,7 @@ class spi_uvc_bus_monitor extends uvm_monitor;
    extern task run_phase(uvm_phase phase);
 
 endclass : spi_uvc_bus_monitor
-`endif //: SPI_UVC_MASTER_MONITOR_SV
-
-   /** Standard UVM Methods*/
-   function spi_uvc_bus_monitor::new(string name = "spi_uvc_bus_monitor",uvm_component parent);
-      super.new(name,parent);
-   endfunction : new
+`endif /** SPI_UVC_MASTER_MONITOR_SV*/
 
    /** Build_phase*/
    function void spi_uvc_bus_monitor::build_phase(uvm_phase phase);
