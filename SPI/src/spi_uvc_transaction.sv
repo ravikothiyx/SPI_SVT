@@ -38,12 +38,9 @@ class spi_uvc_transaction extends uvm_sequence_item;
    `uvm_object_utils_end
 
   /** Standard UVM Methods*/
-  extern function new(string name = "spi_uvc_transaction");
+  function new(string name = "spi_uvc_transaction");
+    super.new(name);
+  endfunction : new
 
 endclass :spi_uvc_transaction
 `endif 
-
-  /** Standard UVM Methods*/
-  function spi_uvc_trans::new(string name = "spi_uvc_transaction");
-    super.new(name);
-  endfunction : new
