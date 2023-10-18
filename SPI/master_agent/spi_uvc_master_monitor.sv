@@ -14,6 +14,9 @@ class spi_uvc_master_monitor extends uvm_monitor;
    /** UVM Factory Registration Macro**/
    `uvm_component_utils(spi_uvc_master_monitor);
 
+   /** Spi interface instance */
+   virtual spi_uvc_if vif;
+
    /** Analysis port for scoreaboard and coverage collector*/
    uvm_analysis_port#(spi_uvc_transaction) item_collected_port;
 

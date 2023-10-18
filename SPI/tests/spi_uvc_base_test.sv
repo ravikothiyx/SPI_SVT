@@ -53,13 +53,16 @@ endclass : spi_uvc_base_test
 
       `uvm_info(get_type_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
 
-
       /** Creating register config */
       reg_cfg_h = spi_uvc_reg_cfg::type_id::create("reg_cfg_h");
+
+      /** Set the register configuration */
+      uvm_config_db#(spi_uvc_reg_cfg)::set(this,"*","reg_cfg_h",reg_cfg_h);
 
       /** Creating environment config */
       sys_cfg_h = spi_uvc_system_cfg::type_id::create("sys_cfg_h");
       
+      /** Set the system configuration*/
       uvm_config_db#(spi_uvc_system_cfg)::set(this,"*","sys_cfg_h",sys_cfg_h);
 
       /** Creating the Environment */
