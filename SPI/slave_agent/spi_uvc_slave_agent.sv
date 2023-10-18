@@ -15,6 +15,9 @@ class spi_uvc_slave_agent extends uvm_agent;
    /** UVM Factory Registration Macro*/
    `uvm_component_utils(spi_uvc_slave_agent);
 
+   /** SPI interface instance */
+   virtual spi_uvc_if vif;
+
    /**slave sequencer instance*/
    spi_uvc_slave_sequencer slv_seqr_h;
 
@@ -61,6 +64,10 @@ endclass : spi_uvc_slave_agent
       /**getting the config class*/
       if(!uvm_config_db#(spi_uvc_slave_cfg)::get(this,"","slv_cfg_h",slv_cfg_h))
          `uvm_fatal(get_full_name,"Not able to get the slave config");
+      
+       /** Retriving the virtual interface*/
+      if(!uvm_config_db#(virtual spi_uvc_if)::get(this,"","vif",vif))
+         `uvm_fatal(get_full_name,"Not able to get the virtual interface");
 
       /**Checking Agent is ACTIVE or PASSIVE(ACTIVE then create)*/
       if(slv_cfg_h.is_active == UVM_ACTIVE) begin
@@ -91,14 +98,21 @@ endclass : spi_uvc_slave_agent
       /**Chekcing of Agent is ACTIVE or PASSive and then connect*/
       if(slv_cfg_h.is_active == UVM_ACTIVE) begin
          slv_drv_h.seq_item_port.connect(slv_seqr_h.seq_item_export);
+         
+         /** Assigning spi interface to driver */
+         slv_drv_h.vif = vif;
       end 
 
       //Analysis port connection
       slv_mon_h.item_collected_port.connect(slv_agent_port);
+
+      /** Assigning spi interface to monitor */
+      slv_mon_h.vif = vif;
+
       if(slv_cfg_h.enable_cov)begin
          slv_mon_h.item_collected_port.connect(slv_cov_h.analysis_export);
       end /** if*/
-
+      slv_mon_h.item_req_port.connect(slv_seqr_h.item_export);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase

@@ -7,10 +7,6 @@
 /////////////////////////////////////////////////
 
 
-//
-// Class Description:
-//
-//
 `ifndef SPI_UVC_MASTER_AGENT_SV
 `define SPI_UVC_MASTER_AGENT_SV
 
@@ -19,6 +15,9 @@ class spi_uvc_master_agent extends uvm_agent;
    /** UVM Factory Registration Macro*/
    `uvm_component_utils(spi_uvc_master_agent);
 
+   /** SPI interface instance */
+   virtual spi_uvc_if vif;
+   
    /** Master sequencer instance*/
    spi_uvc_master_sequencer mstr_seqr_h;
 
@@ -36,7 +35,6 @@ class spi_uvc_master_agent extends uvm_agent;
 
    /** Analysis port for monitor to scoreboard*/
    uvm_analysis_port#(spi_uvc_transaction) mstr_agent_port;
-
 
    /** Standard UVM Methods*/
    extern function new(string name = "spi_uvc_master_agent",uvm_component parent);
@@ -67,6 +65,9 @@ endclass : spi_uvc_master_agent
       /** Retriving the configuration class*/
       if(!uvm_config_db#(spi_uvc_master_cfg)::get(this,"","mstr_cfg_h",mstr_cfg_h))
          `uvm_fatal(get_full_name(),"Not able to get the master config");
+      /** Retriving the virtual interface*/
+      if(!uvm_config_db#(virtual spi_uvc_if)::get(this,"","vif",vif))
+         `uvm_fatal(get_full_name(),"Not able to get the virtual interface");
 
       /** As per the config class Active or Passive Agent*/
       if(mstr_cfg_h.is_active == UVM_ACTIVE)
@@ -99,10 +100,15 @@ endclass : spi_uvc_master_agent
       if(mstr_cfg_h.is_active == UVM_ACTIVE)
       begin
          mstr_drv_h.seq_item_port.connect(mstr_seqr_h.seq_item_export);
+         /** Assigning spi interface to driver */
+         mstr_drv_h.vif = vif;
       end
 
       /** Analysis port connection*/
       mstr_mon_h.item_collected_port.connect(mstr_agent_port);
+     
+      /** Assigning spi interface to monitor */
+      mstr_mon_h.vif = vif;
 
       if(mstr_cfg_h.enable_cov)begin
          mstr_mon_h.item_collected_port.connect(mstr_cov_h.analysis_export);
