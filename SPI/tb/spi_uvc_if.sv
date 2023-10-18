@@ -7,4 +7,13 @@
 /////////////////////////////////////////////////
 
 interface spi_uvc_if();
+
+  logic sclk;
+  logic ss_n;
+  logic mosi;
+  logic miso;
+
+  modport MSTR_MP (input sclk,output ss_n, output mosi, input miso);
+  modport SLV_MP  (output sclk,input ss_n, input mosi, output miso);
+
 endinterface : spi_uvc_if
