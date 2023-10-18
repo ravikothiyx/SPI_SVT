@@ -6,7 +6,7 @@
 // Discription:
 /////////////////////////////////////////////////
 
-interface spi_uvc_if();
+interface spi_uvc_if(input bit clk);
 
   logic sclk;
   logic ss_n;

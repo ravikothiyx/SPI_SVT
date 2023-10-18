@@ -20,7 +20,7 @@ class spi_uvc_master_driver extends uvm_driver #(spi_uvc_transaction);
    virtual spi_uvc_if drv_vif;
 
    /** Instance of Register config*/
-   spi_uvc_reg_config reg_cfg_h;
+   spi_uvc_reg_cfg reg_cfg_h;
 
    int baudrate_divisor;
 
@@ -80,7 +80,7 @@ endclass : spi_uvc_master_driver
       wait(drv_vif.rstn);
 
       forever begin
-        fork
+        fork : init
           begin
             wait(!drv_vif.rstn);
           end
@@ -92,16 +92,16 @@ endclass : spi_uvc_master_driver
 
               /** Clock Generation*/
               @(posedge drv_vif.clk)
-              baudrate_divisor = (reg_cfg_h.SPIBR[4:6] + 1)*('b1<<(reg_cfg_h.SPIBR[2:0]));
+              baudrate_divisor = (reg_cfg_h.SPIBR[6:4] + 1)*('b1<<(reg_cfg_h.SPIBR[2:0]));
               fork
-                while(!ss_n) begin
+                while(!drv_vif.ss_n) begin
                   if(reg_cfg_h.SPICR1[3]) begin
                     drv_vif.sclk <= 1;
                     repeat(baudrate_divisor) @(edge drv_vif.clk);
                     drv_vif.sclk <= 0;
                     repeat(baudrate_divisor) @(edge drv_vif.clk);
                   end
-                  else
+                  else begin
                     drv_vif.sclk <= 0;
                     repeat(baudrate_divisor) @(edge drv_vif.clk);
                     drv_vif.sclk <= 1;
@@ -145,94 +145,98 @@ endclass : spi_uvc_master_driver
                   end
                 end
               end
-              @(posedge drv_vif.clk) sclk <= reg_cfg_h.SPICR1[3];
-              @(posedge drv_vif.clk) ss_n <= 1'b1;
+              @(posedge drv_vif.clk) drv_vif.sclk <= reg_cfg_h.SPICR1[3];
+              @(posedge drv_vif.clk) drv_vif.ss_n <= 1'b1;
               seq_item_port.item_done();
             end
             else begin
               drv_vif.sclk <= reg_cfg_h.SPICR1[3];
               drv_vif.ss_n <= 1'b1;
-              drv_cif.mosi <= 1'bz;
+              drv_vif.mosi <= 1'bz;
             end
           end
-      `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
+        join_any
+        disable init;
+        wait(drv_vif.rstn);
+        `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
+      end
    endtask : run_phase
 
    /** msb first driving on posedge*/
-   task msb_first_drv_posedge();
+   task spi_uvc_master_driver::msb_first_drv_posedge();
      foreach(req.header[i]) begin
-       @(posedge drv_cif.sclk)
-       drv_vif.mosi <= header[i];
+       @(posedge drv_vif.sclk)
+       drv_vif.mosi <= req.header[i];
      end
      if(req.header[7]) begin
        foreach(req.wr_data[i]) begin
-         @(posedge drv_cif.sclk)
-         drv_vif.mosi <= wr_data[i];
+         @(posedge drv_vif.sclk)
+         drv_vif.mosi <= req.wr_data[i];
        end
      end
      else begin
        foreach(req.wr_data[i]) begin
-         @(posedge drv_cif.sclk)
+         @(posedge drv_vif.sclk)
          drv_vif.mosi <= 1'bz;
        end
      end
    endtask : msb_first_drv_posedge
 
    /** msb first driving on negedge*/
-   task msb_first_drv_negedge();
+   task spi_uvc_master_driver::msb_first_drv_negedge();
      foreach(req.header[i]) begin
-       @(negedge drv_cif.sclk)
-       drv_vif.mosi <= header[i];
+       @(negedge drv_vif.sclk)
+       drv_vif.mosi <= req.header[i];
      end
      if(req.header[7]) begin
        foreach(req.wr_data[i]) begin
-         @(negedge drv_cif.sclk)
-         drv_vif.mosi <= wr_data[i];
+         @(negedge drv_vif.sclk)
+         drv_vif.mosi <= req.wr_data[i];
        end
      end
      else begin
        foreach(req.wr_data[i]) begin
-         @(negedge drv_cif.sclk)
+         @(negedge drv_vif.sclk)
          drv_vif.mosi <= 1'bz;
        end
      end
    endtask : msb_first_drv_negedge
 
    /** lsb first driving on posedge*/
-   task lsb_first_drv_posedge();
+   task spi_uvc_master_driver::lsb_first_drv_posedge();
      foreach(req.header[i]) begin
-       @(posedge drv_cif.sclk)
-       drv_vif.mosi <= header[(`ADDR_WIDTH - 1) - i];
+       @(posedge drv_vif.sclk)
+       drv_vif.mosi <= req.header[(`ADDR_WIDTH - 1) - i];
      end
      if(req.header[7]) begin
        foreach(req.wr_data[i]) begin
-         @(posedge drv_cif.sclk)
-         drv_vif.mosi <= wr_data[(`ADDR_WIDTH - 1) - i];
+         @(posedge drv_vif.sclk)
+         drv_vif.mosi <= req.wr_data[(`ADDR_WIDTH - 1) - i];
        end
      end
      else begin
        foreach(req.wr_data[i]) begin
-         @(posedge drv_cif.sclk)
+         @(posedge drv_vif.sclk)
          drv_vif.mosi <= 1'bz;
        end
      end
    endtask : lsb_first_drv_posedge
 
    /** lsb first driving on negedge*/
-   task lsb_first_drv_negedge();
+   task spi_uvc_master_driver::lsb_first_drv_negedge();
      foreach(req.header[i]) begin
-       @(negedge drv_cif.sclk)
-       drv_vif.mosi <= header[(`ADDR_WIDTH - 1) - i];
+       @(negedge drv_vif.sclk)
+       drv_vif.mosi <= req.header[(`ADDR_WIDTH - 1) - i];
      end
      if(req.header[7]) begin
        foreach(req.wr_data[i]) begin
-         @(negedge drv_cif.sclk)
-         drv_vif.mosi <= wr_data[(`ADDR_WIDTH - 1) - i];
+         @(negedge drv_vif.sclk)
+         drv_vif.mosi <= req.wr_data[(`ADDR_WIDTH - 1) - i];
        end
      end
      else begin
        foreach(req.wr_data[i]) begin
-         @(negedge drv_cif.sclk)
+         @(negedge drv_vif.sclk)
          drv_vif.mosi <= 1'bz;
        end
      end
