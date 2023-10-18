@@ -14,6 +14,9 @@ class spi_uvc_slave_driver extends uvm_driver#(spi_uvc_transaction);
    /**UVM Factory Registration Macro*/
    `uvm_component_utils(spi_uvc_slave_driver);
    
+   /** SPI interface instance */
+   virtual spi_uvc_if vif;
+
    /**Standard UVM Methods*/
    extern function new(string name = "spi_uvc_slave_driver",uvm_component parent);
 

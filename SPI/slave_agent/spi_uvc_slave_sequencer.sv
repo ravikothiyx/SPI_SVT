@@ -15,6 +15,10 @@ class spi_uvc_slave_sequencer extends uvm_sequencer#(spi_uvc_transaction);
    /** UVM Factory Registration Macro*/
    `uvm_component_utils(spi_uvc_slave_sequencer);
 
+   /** Analysis export and analysis fifo declaration for reactive agent*/
+   uvm_analysis_export#(spi_uvc_transaction) item_export;
+   uvm_tlm_analysis_fifo#(spi_uvc_transaction) item_fifo;
+
    /** Standard UVM Methods*/
    extern function new(string name = "spi_uvc_slave_sequencer",uvm_component parent);
 
@@ -32,6 +36,8 @@ endclass : spi_uvc_slave_sequencer
    /** Standard UVM Methods*/
    function spi_uvc_slave_sequencer::new(string name = "spi_uvc_slave_sequencer",uvm_component parent);
       super.new(name,parent);
+      item_export = new("item_export",this);
+      item_fifo = new("item_fifo",this);
    endfunction : new
 
    /**build_phase*/
@@ -46,6 +52,7 @@ endclass : spi_uvc_slave_sequencer
    function void spi_uvc_slave_sequencer::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
+      item_export.connect(item_fifo.analysis_export);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase
