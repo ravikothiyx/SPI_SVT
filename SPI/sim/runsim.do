@@ -4,7 +4,6 @@ vsim -novopt spi_uvc_top
 add wave -position insertpoint  \
 sim:/spi_uvc_top/bclk
 add wave -position insertpoint  \
-sim:/spi_uvc_top/inf/clk \
 sim:/spi_uvc_top/inf/miso \
 sim:/spi_uvc_top/inf/mosi \
 sim:/spi_uvc_top/inf/rstn \

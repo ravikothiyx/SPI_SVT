@@ -32,8 +32,6 @@ package spi_uvc_pkg;
    `include "spi_uvc_system_cfg.sv"  
    `include "spi_uvc_reg_cfg.sv"  
    
-   /** Trasaction class*/
-   `include "spi_uvc_transaction.sv"
 
    /** Master files*/
    `include "spi_uvc_master_sequencer.sv"
@@ -58,9 +56,6 @@ package spi_uvc_pkg;
    /** Virtual sequencer*/
    `include "spi_uvc_virtual_sequencer.sv"
 
-   /** Virtual sequence*/
-   `include "spi_uvc_virtual_sequence.sv"
-
    /** Environment files*/
    `include "spi_uvc_env.sv"
 
@@ -70,7 +65,22 @@ package spi_uvc_pkg;
    /** Base sequence file*/
    `include "spi_uvc_base_sequence.sv"
    
+   `include "spi_uvc_mstr_base_seqs.sv"
+
+   `include "spi_uvc_slv_base_seqs.sv"
+
+   `include "spi_uvc_rd_seqs.sv"
+  
+   `include "spi_uvc_wr_seqs.sv"
+   
+   /** Virtual sequence*/
+   `include "spi_uvc_virtual_sequence.sv"
+  
+   /** write virtual sequence */
+   `include "spi_uvc_wr_vseqs.sv"
    /** Testcases*/  
    `include "spi_uvc_base_test.sv"
+
+   `include "spi_uvc_sanity_test.sv"
 endpackage : spi_uvc_pkg
 `endif /**SPI_UVC_PKG*/

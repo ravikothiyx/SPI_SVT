@@ -17,6 +17,9 @@ class spi_uvc_master_agent extends uvm_agent;
 
    /** SPI interface instance */
    virtual spi_uvc_if vif;
+
+  /** SPI reg config instance */
+   spi_uvc_reg_cfg reg_cfg_h;
    
    /** Master sequencer instance*/
    spi_uvc_master_sequencer mstr_seqr_h;
@@ -61,14 +64,18 @@ endclass : spi_uvc_master_agent
    function void spi_uvc_master_agent::build_phase(uvm_phase phase);
       super.build_phase(phase);
       `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
-
+       
+      /** retriving the reg configuration classs */
+      if(!uvm_config_db#(spi_uvc_reg_cfg)::get(this,"","reg_cfg_h",reg_cfg_h))
+         `uvm_fatal(get_full_name(),"not able to get reg config");
+      
       /** Retriving the configuration class*/
       if(!uvm_config_db#(spi_uvc_master_cfg)::get(this,"","mstr_cfg_h",mstr_cfg_h))
          `uvm_fatal(get_full_name(),"Not able to get the master config");
       /** Retriving the virtual interface*/
       if(!uvm_config_db#(virtual spi_uvc_if)::get(this,"","vif",vif))
          `uvm_fatal(get_full_name(),"Not able to get the virtual interface");
-
+         
       /** As per the config class Active or Passive Agent*/
       if(mstr_cfg_h.is_active == UVM_ACTIVE)
       begin
@@ -102,6 +109,7 @@ endclass : spi_uvc_master_agent
          mstr_drv_h.seq_item_port.connect(mstr_seqr_h.seq_item_export);
          /** Assigning spi interface to driver */
          mstr_drv_h.vif = vif;
+         mstr_drv_h.reg_cfg_h = reg_cfg_h;
       end
 
       /** Analysis port connection*/
@@ -110,6 +118,7 @@ endclass : spi_uvc_master_agent
       /** Assigning spi interface to monitor */
       mstr_mon_h.vif = vif;
 
+       //  mstr_mon_h.reg_cfg_h = reg_cfg_h;
       if(mstr_cfg_h.enable_cov)begin
          mstr_mon_h.item_collected_port.connect(mstr_cov_h.analysis_export);
       end /** if*/

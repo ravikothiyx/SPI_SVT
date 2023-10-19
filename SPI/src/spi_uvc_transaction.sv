@@ -13,7 +13,6 @@
 typedef enum bit[1:0] {TX_ONLY,RX_ONLY,EEPROM,FULL_DUPLEX} trans_kind;
 
 class spi_uvc_transaction extends uvm_sequence_item;
-
   rand trans_kind trans_kind_e;
 
   /** For eeprom address and For normal transaction 7 bit address and 1 bit wr/rd operation*/
@@ -38,9 +37,15 @@ class spi_uvc_transaction extends uvm_sequence_item;
    `uvm_object_utils_end
 
   /** Standard UVM Methods*/
-  function new(string name = "spi_uvc_transaction");
-    super.new(name);
-  endfunction : new
+ extern function new(string name = "spi_uvc_transaction");
+    //super.new(name);
+  //endfunction : new
 
 endclass :spi_uvc_transaction
+ 
 `endif 
+function spi_uvc_transaction::new(string name = "spi_uvc_transaction");
+    super.new(name);
+  `uvm_info(get_full_name(),"TRANSACTION_CLASS_STARTED",UVM_LOW);
+  endfunction : new
+

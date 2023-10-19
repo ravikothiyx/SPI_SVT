@@ -52,7 +52,7 @@ endclass : spi_uvc_master_sequencer
    
    /** Run_phase*/
    task spi_uvc_master_sequencer::run_phase(uvm_phase phase);
-      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_MEDIUM);
       `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_MEDIUM);
    endtask : run_phase

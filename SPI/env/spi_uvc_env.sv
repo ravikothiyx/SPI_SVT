@@ -95,6 +95,12 @@ endclass : spi_uvc_env
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
+       if(sys_cfg_h.mstr == 1'b1) begin
+        vseqr_h.mseqr_h = mstr_agent_h.mstr_seqr_h;
+       end
+       if(sys_cfg_h.mstr == 1'b0) begin
+        vseqr_h.sseqr_h = slv_agent_h.slv_seqr_h;
+       end
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
    endfunction : connect_phase
    

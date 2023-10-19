@@ -26,6 +26,8 @@ class spi_uvc_base_test extends uvm_test;
    /** Environment class instance*/
    spi_uvc_env env_h;
 
+  /** virtual sequ
+
    /** Standard UVM Methods: */  
    extern function new(string name = "spi_uvc_base_test",uvm_component parent);
 

@@ -9,8 +9,6 @@
 `ifndef SPI_UVC_MASTER_DRIVER_SV
 `define SPI_UVC_MASTER_DRIVER_SV
 
-`include "../src/spi_uvc_transaction.sv"
-
 class spi_uvc_master_driver extends uvm_driver #(spi_uvc_transaction);
    
    /** UVM Factory Registration Macro*/
@@ -55,30 +53,30 @@ endclass : spi_uvc_master_driver
    /** Build_phase*/
    function void spi_uvc_master_driver::build_phase(uvm_phase phase);
       super.build_phase(phase);
-      `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_HIGH);
-
+      `uvm_info(get_type_name(),"START OF BUILD_PHASE",UVM_MEDIUM);
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_MEDIUM);
    endfunction : build_phase
 
    /** Connect_phase*/
    function void spi_uvc_master_driver::connect_phase(uvm_phase phase);
       super.connect_phase(phase);
-      `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_MEDIUM);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_MEDIUM);
    endfunction : connect_phase
    
    /** Run_phase*/
    task spi_uvc_master_driver::run_phase(uvm_phase phase);
       super.run_phase(phase);
-      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_MEDIUM);
       //`uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
 
       /** Waiting For Initial Reset*/
       wait(!vif.rstn);
       wait(vif.rstn);
-
+      vif.sclk <= reg_cfg_h.SPICR1[3]; 
+      `uvm_info(get_type_name(),"AFTER WAIT ",UVM_MEDIUM);
       forever begin
         fork : init
           begin
@@ -86,26 +84,29 @@ endclass : spi_uvc_master_driver
           end
           forever begin
             if(reg_cfg_h.SPICR1[6]) begin
-              @(posedge vif.clk)
+              `uvm_info(get_type_name(),$sformatf("SPICR1 = %0b",reg_cfg_h.SPICR1),UVM_MEDIUM)
+              @(posedge vif.bclk);
               vif.ss_n <= 0; /** Enable The Slave Select pin*/
               seq_item_port.get_next_item(req);
+              `uvm_info(get_type_name(),"AFTEr get_next_item ",UVM_MEDIUM);
 
               /** Clock Generation*/
-              @(posedge vif.clk)
-              baudrate_divisor = (reg_cfg_h.SPIBR[6:4] + 1)*('b1<<(reg_cfg_h.SPIBR[2:0] + 1));
+              @(posedge vif.bclk);
+              baudrate_divisor = (((reg_cfg_h.SPIBR[6:4]) + 1)*((32'b1)<<((reg_cfg_h.SPIBR[2:0]) + 1)));
+              `uvm_info(get_type_name(),$sformatf("baudrate = %0d",baudrate_divisor),UVM_MEDIUM)
               fork
                 while(!vif.ss_n) begin
                   if(reg_cfg_h.SPICR1[3]) begin
                     vif.sclk <= 1;
-                    repeat(baudrate_divisor) @(edge vif.clk);
+                    repeat(baudrate_divisor) @(edge vif.bclk);
                     vif.sclk <= 0;
-                    repeat(baudrate_divisor) @(edge vif.clk);
+                    repeat(baudrate_divisor) @(edge vif.bclk);
                   end
                   else begin
                     vif.sclk <= 0;
-                    repeat(baudrate_divisor) @(edge vif.clk);
+                    repeat(baudrate_divisor) @(edge vif.bclk);
                     vif.sclk <= 1;
-                    repeat(baudrate_divisor) @(edge vif.clk);
+                    repeat(baudrate_divisor) @(edge vif.bclk);
                   end
                 end
               join_none
@@ -145,8 +146,8 @@ endclass : spi_uvc_master_driver
                   end
                 end
               end
-              @(posedge vif.clk) vif.sclk <= reg_cfg_h.SPICR1[3];
-              @(posedge vif.clk) vif.ss_n <= 1'b1;
+              @(posedge vif.bclk) vif.sclk <= reg_cfg_h.SPICR1[3];
+              @(posedge vif.bclk) vif.ss_n <= 1'b1;
               seq_item_port.item_done();
             end
             else begin
@@ -158,7 +159,7 @@ endclass : spi_uvc_master_driver
         join_any
         disable init;
         wait(vif.rstn);
-        `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
+        `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_MEDIUM);
       end
    endtask : run_phase
 
