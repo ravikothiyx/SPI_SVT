@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////
 
 `timescale 10ns/1ps
-interface spi_uvc_if(input bit clk,input bit rstn);
+interface spi_uvc_if(input bit bclk,input bit rstn);
 
   logic sclk;
   logic ss_n;

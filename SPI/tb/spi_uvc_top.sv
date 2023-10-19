@@ -21,24 +21,29 @@ module spi_uvc_top;
    /** Bus clock*/
    bit bclk;
 
+   
    /** Reset*/
    bit rstn = 1;
+   
+/** Interface instance*/
+   spi_uvc_if inf(bclk,rstn);
+   
+  initial begin
+    rstn = 1'b0;
+    #10;
+    rstn = 1'b1;
+ end
 
    /** Clock generation 25Mhz*/
    initial begin			
-	   bclk = 1'd0;
-	   forever
-	      bclk = #40 ~bclk;
+	   forever #2 bclk = ~bclk;
    end
 
-   /** Interface instance*/
-   spi_uvc_if inf(bclk,rstn);
-   
    /**run_test method*/
    initial begin
       /** Set the SPI interface*/
       uvm_config_db#(virtual spi_uvc_if)::set(null,"*","vif",inf);
-      run_test("spi_uvc_base_test");
+      run_test("spi_uvc_sanity_test");
    end
 endmodule : spi_uvc_top
 `endif /** SPI_UVC_TOP*/
