@@ -20,6 +20,6 @@ sim:
 
 #To run the simulation in command prompt
 sim_c:
-	vsim -novopt $(TOP_N) -c -do "run -all; exit"
+	vsim -novopt $(TOP_N) -c -do "do runsim.do"
 
 

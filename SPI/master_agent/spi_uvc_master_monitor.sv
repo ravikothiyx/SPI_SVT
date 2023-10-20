@@ -1,7 +1,7 @@
 //////////////////////////////////////////////// 
 // File:          spi_uvc_master_monitor.sv
 // Version:       v1
-// Developer:     Mayank
+// Developer:     
 // Project Name:  SPI
 // Discription:
 /////////////////////////////////////////////////
@@ -16,13 +16,14 @@ class spi_uvc_master_monitor extends uvm_monitor;
    
    /**Declaration for queue array*/
    bit que_mosi[$];
-   bit que_miso[$];
 
    /**Declaration for temporary variable*/
    bit temp_mosi;
-   bit temp_miso;
 
-   /** Spi interface instance */
+   /**Flag to differentiate between Address & Data*/
+   bit diff_flag;
+
+   /**Spi interface instance */
    virtual spi_uvc_if vif;
 
    /**Sequence item Handle*/
@@ -45,6 +46,12 @@ class spi_uvc_master_monitor extends uvm_monitor;
    
    /** Run_phase*/
    extern task run_phase(uvm_phase phase);
+   
+   /**Task for sampling interface transaction*/
+   extern task mon_to_inf(spi_uvc_transaction trans_h);
+
+   /**Task for sample the transaction*/
+   extern task sample(spi_uvc_transaction trans_h);
 
 endclass : spi_uvc_master_monitor
 `endif //: SPI_UVC_MASTER_MONITOR_SV
@@ -76,88 +83,101 @@ endclass : spi_uvc_master_monitor
    
    /** Run_phase*/
    task spi_uvc_master_monitor::run_phase(uvm_phase phase);
-      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);      
-      
-      forever begin
-      
-      wait(!vif.rstn);
-      @(vif.sclk)
-      
-      temp_mosi = vif.mosi;
-      que_mosi.push_back(temp_mosi);
-
-      temp_miso= vif.miso;
-      que_miso.push_back(temp_miso);
-
-      /**Condition:Phase & Polarity both High */
-      if(reg_cfg_h.SPICR1[2])begin
-        if(reg_cfg_h.SPICR1[3])begin
-          @(posedge vif.sclk)
-          for(int i=0;i<=7;i++)
-          trans_h.header[i]=que_mosi.pop_front();
-
-            /**Check for Write & Read operation, Accordingly we will monitor "wr_data & rd_data"*/
-            if(trans_h.header[1])begin
-              for(int i=0;i<=7;i++)
-              trans_h.wr_data[i]=que_mosi.pop_front();
-            end
-            else begin
-              for(int i=0;i<=7;i++)
-              trans_h.rd_data[i]=que_miso.pop_front();
-            end
-        end
-        /**Condition:Phase = 1 & Polarity = 0*/
-        else begin
-          @(negedge vif.sclk)
-          for(int i=0;i<=7;i++)
-          trans_h.header[i]=que_mosi.pop_front();
-            /**Check for Write & Read operation, Accordingly we will monitor "wr_data & rd_data"*/
-            if(trans_h.header[1])begin
-              for(int i=0;i<=7;i++)
-              trans_h.wr_data[i]=que_mosi.pop_front();
-            end
-            else begin
-              for(int i=0;i<=7;i++)
-              trans_h.rd_data[i]=que_miso.pop_front();
-            end
-        end
-      end
-      /**Condition:Phase = 0 & Polarity = 0*/
-      else begin
-        if(!reg_cfg_h.SPICR1[3])begin
-          @(posedge vif.sclk)
-          for(int i=0;i<=7;i++)
-          trans_h.header[i]=que_mosi.pop_front();
-            /**Check for Write & Read operation from the first bit of "header"*/
-            /**Accordingly we will monitor "wr_data & rd_data"*/
-            if(trans_h.header[1])begin
-              for(int i=0;i<=7;i++)
-              trans_h.wr_data[i]=que_mosi.pop_front();
-            end
-            else begin
-              for(int i=0;i<=7;i++)
-              trans_h.rd_data[i]=que_miso.pop_front();
-            end
-        end
-        /**Condition:Phase = 0 & Polarity = 0*/
-        else begin
-          @(negedge vif.sclk)
-          for(int i=0;i<=7;i++)
-          trans_h.header[i]=que_mosi.pop_front();
-            /**Check for Write & Read operation from the first bit of "header"*/
-            /**Accordingly we will monitor "wr_data & rd_data"*/
-            if(trans_h.header[1])begin
-              for(int i=0;i<=7;i++)
-              trans_h.wr_data[i]=que_mosi.pop_front();
-            end
-            else begin
-              for(int i=0;i<=7;i++)
-              trans_h.rd_data[i]=que_miso.pop_front();
-            end
-        end
-      end
-      item_collected_port.write(trans_h);
-      end
-      `uvm_info(get_type_name(),"INSIDE RUN_PHASE",UVM_DEBUG);
-      `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
+      `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);     
+      mon_to_inf(trans_h);
+            `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
+
+   /**mon_to_inf task to sample interface transactions*/
+   task spi_uvc_master_monitor::mon_to_inf(spi_uvc_transaction trans_h);
+      `uvm_info(get_type_name(),"Inside mon_to_inf task",UVM_HIGH);
+      forever begin
+
+            /**SPICR1[2]:CPHASE(Phase) =0 & SPICR1[3]:CPOl(Polarity) =0*/
+            if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
+               @(posedge vif.sclk)
+                  sample(trans_h);
+            end /**else if*/
+
+            /**SPICR1[2]:CPHASE(Phase) =0 & SPICR1[3]:CPOl(Polarity) =1*/
+            else if(reg_cfg_h.SPICR1[3:2] == 2'b01)begin
+               @(negedge vif.sclk)
+                  sample(trans_h);
+            end /**else if*/
+
+            /**SPICR1[2]:CPHASE(Phase) =1 & SPICR1[3]:CPOl(Polarity) =0*/
+            else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
+               @(negedge vif.sclk)
+                  sample(trans_h);
+            end /**else if*/
+
+            /**SPICR1[2]:CPHASE(Phase) =1 & SPICR1[3]:CPOl(Polarity) =1*/
+            else if(reg_cfg_h.SPICR1[3:2] == 2'b11)begin
+               @(posedge vif.sclk)
+                  sample(trans_h);
+            end /**else if*/
+      end /** forever*/
+   endtask : mon_to_inf
+
+   /**Sample task for sampling the transaction*/
+   task spi_uvc_master_monitor::sample(spi_uvc_transaction trans_h);
+
+      /**Taking temporary variable "temp_mosi" and assigning it "mosi" signal from the interface*/
+      temp_mosi = vif.mosi;
+
+      /**Storing mosi data(temp_mosi) into the queue array - que_mosi*/
+      que_mosi.push_back(temp_mosi);
+      
+      /**Condition: When queue array is equal size of "Address width"*/
+      if(que_mosi.size == `ADDR_WIDTH && (diff_flag ==0))begin
+        diff_flag=1'b1;
+        /**SPICR[0]=0: MSB Bit first*/
+        if(!reg_cfg_h.SPICR1[0])begin
+          for(int i=`ADDR_WIDTH;i>0;i--)begin
+            trans_h.header[i]=que_mosi.pop_front();
+          end/**for*/
+          `uvm_info(get_type_name(),$sformatf("trans_h.header = %0b",trans_h.header),UVM_HIGH);
+          que_mosi.delete();
+          diff_flag=1'b1;
+        end/**if*/
+
+        /**SPICR[0]=1: LSB Bit first*/
+        else begin
+        for(int i=0;i<`ADDR_WIDTH-1;i++)begin
+         trans_h.header[i]=que_mosi.pop_front();
+         `uvm_info(get_type_name(),"Master monitor header",UVM_HIGH);
+        end/**for*/
+        `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+        que_mosi.delete();
+        end/**else*/
+      end/**if*/
+      
+      /**Condition: When queue array is equal size of "Data width"*/
+      if(que_mosi.size == `DATA_WIDTH && (diff_flag ==1))begin
+        
+        /**SPICR[0]=0: MSB Bit first*/
+         if(!reg_cfg_h.SPICR1[0])begin
+            for(int i = `DATA_WIDTH - 1; i>0; i--)begin
+               trans_h.wr_data[i] = que_mosi.pop_front();
+              `uvm_info(get_type_name(),"Master monitor write data",UVM_HIGH);
+            end/**for*/
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+            que_mosi.delete();
+            diff_flag = 1'b0;
+         end/**if*/
+
+        /**SPICR[0]=1: LSB Bit first*/
+         else begin
+            for(int i = 0; i<`DATA_WIDTH; i++)begin
+               trans_h.wr_data[i] = que_mosi.pop_front();
+            end/**for*/
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+            que_mosi.delete();
+            diff_flag = 1'b0;
+         end/**else*/
+
+      end/**wait*/
+      item_collected_port.write(trans_h);
+   endtask:sample
+
+

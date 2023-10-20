@@ -112,6 +112,8 @@ endclass : spi_uvc_slave_agent
       if(slv_cfg_h.enable_cov)begin
          slv_mon_h.item_collected_port.connect(slv_cov_h.analysis_export);
       end /** if*/
+
+      /** Connecting the salve monitor to the slave sequencer(reactive agent)*/
       slv_mon_h.item_req_port.connect(slv_seqr_h.item_export);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
       `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
