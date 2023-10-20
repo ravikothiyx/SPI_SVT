@@ -19,6 +19,7 @@ class spi_uvc_wr_seqs extends spi_uvc_mstr_base_seqs;
  /** body task */
  task body();
  `uvm_do_with(trans_h,{header[7] == 1'b1;})
+  $display("write"); 
   trans_h.print();
  /* trans_h = spi_uvc_transaction::type_id::create("trans_h");
   `uvm_info(get_full_name(),"after trans_h item",UVM_LOW)

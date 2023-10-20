@@ -69,6 +69,8 @@ package spi_uvc_pkg;
 
    `include "spi_uvc_slv_base_seqs.sv"
 
+   `include "spi_uvc_slv_seqs.sv"
+
    `include "spi_uvc_rd_seqs.sv"
   
    `include "spi_uvc_wr_seqs.sv"

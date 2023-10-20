@@ -82,7 +82,7 @@ endclass : spi_uvc_master_driver
 
       /** Initialize the sclk*/
       vif.sclk <= reg_cfg_h.SPICR1[3]; 
-
+      vif.mosi <= 1'bz;
       `uvm_info(get_type_name(),"AFTER WAIT ",UVM_MEDIUM);
       forever begin
         fork : init
@@ -94,15 +94,15 @@ endclass : spi_uvc_master_driver
             if(reg_cfg_h.SPICR1[6]) begin /** Checking for SPI enable bit(SPE)*/
               `uvm_info(get_type_name(),$sformatf("SPICR1 = %0b",reg_cfg_h.SPICR1),UVM_MEDIUM)
               @(posedge vif.bclk);
-              vif.ss_n <= 0; /** Enable The Slave Select pin*/
               seq_item_port.get_next_item(req);
+              vif.ss_n <= 0; /** Enable The Slave Select pin*/
               `uvm_info(get_type_name(),"AFTEr get_next_item ",UVM_MEDIUM);
 
               /** Clock Generation*/
               @(posedge vif.bclk);
               baudrate_divisor = (((reg_cfg_h.SPIBR[6:4]) + 1)*((32'b1)<<((reg_cfg_h.SPIBR[2:0]) + 1)));
               `uvm_info(get_type_name(),$sformatf("baudrate = %0d",baudrate_divisor),UVM_MEDIUM)
-              fork
+              fork : clock
                 while(!vif.ss_n) begin
                   if(reg_cfg_h.SPICR1[3]) begin
                     vif.sclk <= 1;
@@ -167,7 +167,9 @@ endclass : spi_uvc_master_driver
                 end /** CPHA=0;CPOL=0*/
               end /** CPHA=1*/
               @(posedge vif.bclk) vif.sclk <= reg_cfg_h.SPICR1[3];
+              disable clock;
               @(posedge vif.bclk) vif.ss_n <= 1'b1;
+              vif.mosi <= 1'bz;
               seq_item_port.item_done();
             end
             else begin
