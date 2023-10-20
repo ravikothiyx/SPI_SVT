@@ -25,7 +25,7 @@ class spi_uvc_reg_cfg extends uvm_object;
   bit [7:0] SPICR2 = 8'b0000_0000;  
   
   /** SPI BAUD RATE REGISTER 1*/
-  bit [7:0] SPIBR = 8'b0000_0000;  
+  bit [7:0] SPIBR = 8'b0111_0111;  
 
   /** SPI STATUS REGISTER 1*/
   bit [7:0] SPISR = 8'b0010_0000;  
