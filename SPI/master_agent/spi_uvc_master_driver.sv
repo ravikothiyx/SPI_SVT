@@ -34,12 +34,16 @@ class spi_uvc_master_driver extends uvm_driver #(spi_uvc_transaction);
    /** Run_phase*/
    extern task run_phase(uvm_phase phase);
 
+   /** Driving on posedge with msb first*/
    extern task msb_first_drv_posedge();
 
+   /** Driving on negedge with msb first*/
    extern task msb_first_drv_negedge();
 
+   /** Driving on posedge with lsb first*/
    extern task lsb_first_drv_posedge();
 
+   /** Driving on negedge with lsb first*/
    extern task lsb_first_drv_negedge();
 
 endclass : spi_uvc_master_driver
@@ -75,15 +79,19 @@ endclass : spi_uvc_master_driver
       /** Waiting For Initial Reset*/
       wait(!vif.rstn);
       wait(vif.rstn);
+
+      /** Initialize the sclk*/
       vif.sclk <= reg_cfg_h.SPICR1[3]; 
+
       `uvm_info(get_type_name(),"AFTER WAIT ",UVM_MEDIUM);
       forever begin
         fork : init
           begin
             wait(!vif.rstn);
           end
+
           forever begin
-            if(reg_cfg_h.SPICR1[6]) begin
+            if(reg_cfg_h.SPICR1[6]) begin /** Checking for SPI enable bit(SPE)*/
               `uvm_info(get_type_name(),$sformatf("SPICR1 = %0b",reg_cfg_h.SPICR1),UVM_MEDIUM)
               @(posedge vif.bclk);
               vif.ss_n <= 0; /** Enable The Slave Select pin*/
@@ -110,42 +118,54 @@ endclass : spi_uvc_master_driver
                   end
                 end
               join_none
-              if(reg_cfg_h.SPICR1[2]) begin /** Checking for wr/rd at odd edges*/
-                if(reg_cfg_h.SPICR1[3]) begin /** Checking For negedge/posedge first*/
+
+              if(reg_cfg_h.SPICR1[2]) begin /** Checking for wr/rd at odd edges(CPHA)*/
+                if(reg_cfg_h.SPICR1[3]) begin /** Checking For negedge/posedge first(CPOL)*/
                   if(!reg_cfg_h.SPICR1[0]) begin /** Check for LSB/MSB first*/
                     msb_first_drv_negedge();
-                  end
+                  end /** CPHA=1;CPOL=1;MSB*/
+
                   else begin
                     lsb_first_drv_negedge();
-                  end
-                end
+                  end /** CPHA=1;CPOL=1;LSB*/
+                end /** CPHA=1;CPOL=1*/ 
+
                 else begin
                   if(!reg_cfg_h.SPICR1[0]) begin /** Check for LSB/MSB first*/
                     msb_first_drv_posedge();
-                  end
+                  end /** CPHA=1;CPOL=0;MSB*/
+
                   else begin
                     lsb_first_drv_posedge();
-                  end
-                end
-              end
+                  end /** CPHA=1;CPOL=0;LSB*/
+                end /** CPHA=1;CPOL=0*/
+              end /** CPHA=1*/
+
               else begin
                 if(reg_cfg_h.SPICR1[3]) begin /** Checking For negedge/posedge first*/
                   if(!reg_cfg_h.SPICR1[0]) begin /** Check for LSB/MSB first*/
-                    msb_first_drv_posedge();
-                  end
+                    msb_first_drv_posedge();                    
+                    repeat(2*baudrate_divisor) @(edge vif.bclk);
+                  end /** CPHA=0;CPOL=1;MSB*/
+
                   else begin
                     lsb_first_drv_posedge();
-                  end
-                end
+                    repeat(2*baudrate_divisor) @(edge vif.bclk);
+                  end /** CPHA=0;CPOL=1;LSB*/
+                end /** CPHA=0;CPOL=1*/
+
                 else begin
                   if(!reg_cfg_h.SPICR1[0]) begin /** Check for LSB/MSB first*/
                     msb_first_drv_negedge();
-                  end
+                    repeat(2*baudrate_divisor) @(edge vif.bclk);
+                  end /**CPHA=0;CPOL=0;MSB*/
+
                   else begin
                     lsb_first_drv_negedge();
-                  end
-                end
-              end
+                    repeat(2*baudrate_divisor) @(edge vif.bclk);
+                  end /**CPHA=0;CPOL=0;LSB*/
+                end /** CPHA=0;CPOL=0*/
+              end /** CPHA=1*/
               @(posedge vif.bclk) vif.sclk <= reg_cfg_h.SPICR1[3];
               @(posedge vif.bclk) vif.ss_n <= 1'b1;
               seq_item_port.item_done();
