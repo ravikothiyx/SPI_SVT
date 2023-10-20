@@ -24,7 +24,7 @@ class spi_uvc_wr_vseqs extends spi_uvc_virtual_sequence_vseq;
    /** handles of sequences */
    spi_uvc_wr_seqs wr_seqs_h;
    spi_uvc_rd_seqs rd_seqs_h; 
-   
+   spi_uvc_slv_seqs slv_seqs_h; 
 endclass 
 `endif /** : SPI_UVC_VIRTUAL_SEQUENCE_SV */
 
@@ -37,6 +37,12 @@ endclass
   /** task body()*/
  
   task spi_uvc_wr_vseqs::body();
-    `uvm_do_on(wr_seqs_h , spi_mstr_seqr_h)   
-    `uvm_do_on(rd_seqs_h , spi_mstr_seqr_h) 
+     fork
+      begin
+         `uvm_do_on(wr_seqs_h , spi_mstr_seqr_h)
+         `uvm_do_on(rd_seqs_h , spi_mstr_seqr_h)
+      end 
+    
+      `uvm_do_on(slv_seqs_h , spi_slv_seqr_h) 
+     join_any
   endtask  

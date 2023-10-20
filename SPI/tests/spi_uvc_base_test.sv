@@ -78,7 +78,7 @@ endclass : spi_uvc_base_test
       super.end_of_elaboration_phase(phase);
       `uvm_info(get_type_name(),"INSIDE END_OF_ELABORATION_PHASE",UVM_FULL);
       /** Displaying Topology */
-      uvm_top.print_topology();
+       `uvm_info(get_type_name(),$sformatf("\n%p",this.sprint),UVM_LOW);
    endfunction : end_of_elaboration_phase
 
    /** Run phase */

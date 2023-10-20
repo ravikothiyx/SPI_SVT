@@ -30,6 +30,7 @@ endclass
 /** body task for driving sequence item using uvm macros (uvm_do) */
  task spi_uvc_rd_seqs::body();
   `uvm_do_with(trans_h,{header[7] == 0;})
+  $display("read");
   trans_h.print();
  endtask
   
