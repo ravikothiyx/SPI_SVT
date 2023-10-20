@@ -19,7 +19,7 @@ class spi_uvc_transaction extends uvm_sequence_item;
   rand bit [`ADDR_WIDTH - 1 : 0] header; 
 
   rand bit [`DATA_WIDTH - 1 : 0] wr_data;
-       bit [`DATA_WIDTH - 1 : 0] rd_data;
+  rand bit [`DATA_WIDTH - 1 : 0] rd_data;
 
   /** Only for eeprom wr/rd operation and wr/rd enable
    * READ  : 0000_0011
