@@ -80,9 +80,15 @@ package spi_uvc_pkg;
   
    /** write virtual sequence */
    `include "spi_uvc_wr_vseqs.sv"
+   `include "spi_uvc_b2b_wr_rd_vseqs.sv"
+   `include "spi_uvc_b2b_wr_vseqs.sv"
+   `include "spi_uvc_b2b_rd_vseqs.sv"
    /** Testcases*/  
    `include "spi_uvc_base_test.sv"
 
    `include "spi_uvc_sanity_test.sv"
+   `include "spi_uvc_b2b_wr_rd_test.sv"
+   `include "spi_uvc_b2b_wr_test.sv"
+   `include "spi_uvc_b2b_rd_test.sv"
 endpackage : spi_uvc_pkg
 `endif /**SPI_UVC_PKG*/

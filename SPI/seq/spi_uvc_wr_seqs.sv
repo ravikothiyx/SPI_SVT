@@ -5,32 +5,32 @@
 // Project Name:  SPI
 // Discription:   This file contains the base sequence for read transactions
 /////////////////////////////////////////////////
-
+`ifndef SPI_UVC_WR_SEQS_SV
+`define SPI_UVC_WR_SEQS_SV
 class spi_uvc_wr_seqs extends spi_uvc_mstr_base_seqs;
 
  /** factory registration */
  `uvm_object_utils(spi_uvc_wr_seqs)
 
  /** function new */
- function new(string name = "spi_uvc_wr_seqs");
+ extern function new(string name = "spi_uvc_wr_seqs");
+
+ /** body task */
+ extern task body();
+
+endclass 
+`endif
+
+ /** function new */
+ function spi_uvc_wr_seqs::new(string name = "spi_uvc_wr_seqs");
   super.new(name);
  endfunction
 
  /** body task */
- task body();
+ task spi_uvc_wr_seqs::body();
+ repeat(num_trans)begin
  `uvm_do_with(trans_h,{header[7] == 1'b1;})
   $display("write"); 
   trans_h.print();
- /* trans_h = spi_uvc_transaction::type_id::create("trans_h");
-  `uvm_info(get_full_name(),"after trans_h item",UVM_LOW)
-  start_item(trans_h);
-  `uvm_info(get_full_name(),"after start item",UVM_LOW)
-  assert(trans_h.randomize() with {header[7] ==1 ;});
-  finish_item(trans_h); */
-//  `uvm_do(trans_h);
-
+end
  endtask
-
-endclass 
-
-

@@ -58,6 +58,7 @@ endclass : spi_uvc_env
       if(!uvm_config_db#(spi_uvc_system_cfg)::get(this,"","sys_cfg_h",sys_cfg_h))
          `uvm_fatal(get_full_name(),"Not able to get the environment cfg");
       
+
       
       //if(sys_cfg_h.mstr == 1'b1) begin
          /** Creating master cfguration*/
@@ -83,7 +84,7 @@ endclass : spi_uvc_env
       //end /** if*/
         
       `uvm_info(get_name(),"INSIDE BUILD_PHASE",UVM_DEBUG);
-
+      
       /** Creating the virtual sequencer*/
       vseqr_h = spi_uvc_virtual_sequencer::type_id::create("vseqr_h",this);
       `uvm_info(get_type_name(),"END OF BUILD_PHASE",UVM_HIGH);
@@ -94,6 +95,7 @@ endclass : spi_uvc_env
       super.connect_phase(phase);
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
+      
        //if(sys_cfg_h.mstr == 1'b1) begin
         vseqr_h.mseqr_h = mstr_agent_h.mstr_seqr_h;
        //end
