@@ -107,7 +107,7 @@ endclass : spi_uvc_slave_monitor
    /** Monitor Task to sample interface transactions*/
    task spi_uvc_slave_monitor::monitor_master_trans(spi_uvc_transaction trans_h);
       `uvm_info(get_type_name(),"Inside monitor task",UVM_HIGH);
-      /** After slave select is asserted then sample*/
+     /** After slave select is asserted then sample*/
       @(negedge vif.ss_n)begin
          /** Initial value is 0 so that at ever transaction the address is get sampled*/
          add = 1'b0;
@@ -117,14 +117,17 @@ endclass : spi_uvc_slave_monitor
             /** Mode 0 (sampling at posedge)*/
             if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
               /** To delay sampling by one posedge*/
-              if(!de)
-                 @(posedge vif.sclk)
+              if(!de)begin
+                 @(posedge vif.sclk);
+                 //$display($realtime,"de");
+              end
               /** Setting the del bit high so that in the current transaction
                 * every time the 1 edge dealy will not be there*/
               de = 1;
-               @(posedge vif.sclk)
+              @(posedge vif.sclk)begin
                   /** Calling samplr method to sample data*/
                   sample(trans_h);
+              end
                   `uvm_info(get_type_name(),"Slave monitor Mode 0",UVM_HIGH);
             end /** if*/
             
@@ -139,8 +142,9 @@ endclass : spi_uvc_slave_monitor
             /** Mode 2 (sampling at negedge)*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
               /** To delay sampling by one posedge*/
-              if(!de)
-                 @(negedge vif.sclk)
+              if(!de)begin
+                 @(negedge vif.sclk);
+              end
               de = 1;
                @(negedge vif.sclk)
                   /** Calling sample method to sample data*/
@@ -174,7 +178,7 @@ endclass : spi_uvc_slave_monitor
          /** setting this bit so when write data is driven then it is not
            * sampled by this block*/
          add = 1'b1;
-         `uvm_info(get_type_name(),$sformatf("Slave monitor header in sr queue = %0p",sr),UVM_HIGH);
+         `uvm_info(get_type_name(),$sformatf("Slave monitor header in sr queue = %0p",sr),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
             /** Storing the sample header into the transaction class header bit by bit*/
@@ -186,8 +190,11 @@ endclass : spi_uvc_slave_monitor
 
             /** Checking that transaction type is read then send the read
               * address to the sequencer*/
-            if(trans_h.header[7]== 0)
+             if(trans_h.header[7]== 0)begin
+                //$display("\t\t\t\tREAD");
+               `uvm_info(get_type_name(),"data send",UVM_NONE);
                item_req_port.write(trans_h);
+             end /** if*/
          end/** if*/
          
          /** LSB first*/   
@@ -198,14 +205,16 @@ endclass : spi_uvc_slave_monitor
             end/** for*/
             /** deleting queue after taking the address*/
             sr.delete();
-            if(trans_h.header[7]== 0)
+            if(trans_h.header[7]== 0)begin
+               `uvm_info(get_type_name(),"data send",UVM_NONE);
                item_req_port.write(trans_h);
+            end /** if*/
          end /** else*/
       end /** if*/
-
+      
       /** waiting for sr queue to the size of data width*/
       if(sr.size == `DATA_WIDTH && (add == 1'b1))begin
-         `uvm_info(get_type_name(),$sformatf("Slave monitor write data in sr queue = %0p",sr),UVM_HIGH);
+         `uvm_info(get_type_name(),$sformatf("Slave monitor write data in sr queue = %0p",sr),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
@@ -218,10 +227,11 @@ endclass : spi_uvc_slave_monitor
             /** Made add flage low so that in next transaction address can be
               * sampled by the header part*/
             add = 1'b0;
-             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_HIGH);
-             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH); 
-             /** sending the transaction to the slave_sequencer*/
-             item_req_port.write(trans_h);
+            `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_HIGH);
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
+            /** sending the transaction to the slave_sequencer*/
+            if(trans_h.header[7]== 1)
+              item_req_port.write(trans_h);
          end/** if*/
          
          /** LSB first*/
@@ -233,10 +243,11 @@ endclass : spi_uvc_slave_monitor
             /** Deleting queue after taking the data*/
             sr.delete();
             add = 1'b0;
-             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_HIGH);
-             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH); 
-             /** Sending the transaction to the slave_sequencer*/
-             item_req_port.write(trans_h);
+            `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_LOW);
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
+            /** Sending the transaction to the slave_sequencer*/
+            if(trans_h.header[7]== 1)
+              item_req_port.write(trans_h);
          end /** else*/
             
             /** Made this bit low when there is 2 or more back to back

@@ -16,12 +16,16 @@ class spi_uvc_master_monitor extends uvm_monitor;
    
    /**Declaration for queue array*/
    bit que_mosi[$];
+   bit que_miso[$];
 
    /**Declaration for temporary variable*/
    bit temp_mosi;
+   bit temp_miso;
 
    /**Flag to differentiate between Address & Data*/
    bit diff_flag;
+
+   bit de;
 
    /**Spi interface instance */
    virtual spi_uvc_if vif;
@@ -91,10 +95,18 @@ endclass : spi_uvc_master_monitor
    /**mon_to_inf task to sample interface transactions*/
    task spi_uvc_master_monitor::mon_to_inf(spi_uvc_transaction trans_h);
       `uvm_info(get_type_name(),"Inside mon_to_inf task",UVM_HIGH);
+      @(negedge vif.ss_n)begin
+      diff_flag = 1'b0;
       forever begin
 
             /**SPICR1[2]:CPHASE(Phase) =0 & SPICR1[3]:CPOl(Polarity) =0*/
             if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
+               /** To delay sampling by one posedge*/
+              if(!de)
+                 @(posedge vif.sclk);
+              /** Setting the del bit high so that in the current transaction
+                * every time the 1 edge dealy will not be there*/
+              de = 1;
                @(posedge vif.sclk)
                   sample(trans_h);
             end /**else if*/
@@ -107,6 +119,9 @@ endclass : spi_uvc_master_monitor
 
             /**SPICR1[2]:CPHASE(Phase) =1 & SPICR1[3]:CPOl(Polarity) =0*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
+               if(!de)
+                 @(negedge vif.sclk);
+              de = 1;
                @(negedge vif.sclk)
                   sample(trans_h);
             end /**else if*/
@@ -117,6 +132,7 @@ endclass : spi_uvc_master_monitor
                   sample(trans_h);
             end /**else if*/
       end /** forever*/
+      end
    endtask : mon_to_inf
 
    /**Sample task for sampling the transaction*/
@@ -127,56 +143,110 @@ endclass : spi_uvc_master_monitor
 
       /**Storing mosi data(temp_mosi) into the queue array - que_mosi*/
       que_mosi.push_back(temp_mosi);
+
+      /**Taking temporary variable "temp_miso" and assigning it "miso" signal from the interface*/
+      temp_miso = vif.miso;
+      
+      /**Storing mosi data(temp_miso) into the queue array - que_mosi*/
+      que_miso.push_back(temp_miso);
+      $display($time,"que_miso=%0p",que_miso);
       
       /**Condition: When queue array is equal size of "Address width"*/
       if(que_mosi.size == `ADDR_WIDTH && (diff_flag ==0))begin
         diff_flag=1'b1;
         /**SPICR[0]=0: MSB Bit first*/
         if(!reg_cfg_h.SPICR1[0])begin
-          for(int i=`ADDR_WIDTH;i>0;i--)begin
+          $display("\t\theader_que_mosi=%0p",que_mosi);
+          for(int i=`ADDR_WIDTH-1;i>=0;i--)begin
             trans_h.header[i]=que_mosi.pop_front();
           end/**for*/
+          $display("header");
           `uvm_info(get_type_name(),$sformatf("trans_h.header = %0b",trans_h.header),UVM_HIGH);
+          //trans_h.print();
           que_mosi.delete();
           diff_flag=1'b1;
         end/**if*/
 
         /**SPICR[0]=1: LSB Bit first*/
         else begin
-        for(int i=0;i<`ADDR_WIDTH-1;i++)begin
+          $display("\t\theader_que_mosi=%0p",que_mosi);
+        for(int i=0;i<=`ADDR_WIDTH-1;i++)begin
          trans_h.header[i]=que_mosi.pop_front();
          `uvm_info(get_type_name(),"Master monitor header",UVM_HIGH);
         end/**for*/
+          $display("header");
         `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+        //trans_h.print();
         que_mosi.delete();
+        diff_flag=1'b1;
         end/**else*/
       end/**if*/
       
-      /**Condition: When queue array is equal size of "Data width"*/
+      /**Condition: When queue array(que_mosi) is equal size of "Data width"*/
       if(que_mosi.size == `DATA_WIDTH && (diff_flag ==1))begin
         
         /**SPICR[0]=0: MSB Bit first*/
          if(!reg_cfg_h.SPICR1[0])begin
-            for(int i = `DATA_WIDTH - 1; i>0; i--)begin
+          $display("\t\tdata_que_mosi=%0p",que_mosi);
+            for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
                trans_h.wr_data[i] = que_mosi.pop_front();
               `uvm_info(get_type_name(),"Master monitor write data",UVM_HIGH);
             end/**for*/
+          $display("data");
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+            //trans_h.print();
             que_mosi.delete();
             diff_flag = 1'b0;
          end/**if*/
 
         /**SPICR[0]=1: LSB Bit first*/
          else begin
-            for(int i = 0; i<`DATA_WIDTH; i++)begin
+          $display("\t\tdata_que_mosi=%0p",que_mosi);
+            for(int i = 0; i<`DATA_WIDTH-1; i++)begin
                trans_h.wr_data[i] = que_mosi.pop_front();
             end/**for*/
+          $display("data");
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+            //trans_h.print();
             que_mosi.delete();
             diff_flag = 1'b0;
          end/**else*/
-
+         //de = 0;
       end/**wait*/
+
+
+      /**Condition: When queue array(que_miso) is equal size of "Data width"*/
+      if(que_miso.size == `DATA_WIDTH)begin
+        
+        /**SPICR[0]=0: MSB Bit first*/
+         if(!reg_cfg_h.SPICR1[0])begin
+          $display("\t\tdata_que_miso=%0p",que_miso);
+            for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
+               trans_h.rd_data[i] = que_miso.pop_front();
+              `uvm_info(get_type_name(),"Master monitor read data",UVM_HIGH);
+            end/**for*/
+          $display("data");
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+          $display("\t\tbefore trans_h");
+            trans_h.print();
+            que_miso.delete();
+         end/**if*/
+
+        /**SPICR[0]=1: LSB Bit first*/
+         else begin
+          $display("\t\tdata_que_miso=%0p",que_miso);
+            for(int i = 0; i<`DATA_WIDTH-1; i++)begin
+               trans_h.rd_data[i] = que_miso.pop_front();
+            end/**for*/
+          $display("data");
+            `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_HIGH);
+          $display("\t\tdata_que_miso=%0p",trans_h);
+          $display("\t\tbefore trans_h");
+            trans_h.print();
+            que_miso.delete();
+         end/**else*/
+      end/**wait*/
+
       item_collected_port.write(trans_h);
    endtask:sample
 
