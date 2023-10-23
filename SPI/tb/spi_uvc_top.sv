@@ -43,11 +43,7 @@ module spi_uvc_top;
    initial begin
       /** Set the SPI interface*/
       uvm_config_db#(virtual spi_uvc_if)::set(null,"*","vif",inf);
-<<<<<<< HEAD
-      run_test("spi_uvc_b2b_wr_test");
-=======
       run_test("");
->>>>>>> 00e8d8542d5efdccf046b0cea9a36500594e4c14
    end
 endmodule : spi_uvc_top
 `endif /** SPI_UVC_TOP*/
