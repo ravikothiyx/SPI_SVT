@@ -21,5 +21,27 @@ sim:
 #To run the simulation in command prompt
 sim_c:
 	vsim -novopt $(TOP_N) -c -do "do runsim.do"
+	
+sanity_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test"
 
+b2b_wr_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_wr_test"
+	
+b2b_rd_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_rd_test"
+	
+b2b_wr_rd_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test"
+	
+sanity_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test"
 
+b2b_wr_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test"
+	
+b2b_rd_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test"
+	
+b2b_wr_rd_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test"

@@ -18,7 +18,6 @@ class spi_uvc_rd_seqs extends spi_uvc_mstr_base_seqs;
  /** body task*/ 
  extern task body();
 
-
 endclass
 `endif
 
