@@ -58,10 +58,9 @@ class spi_uvc_slv_seqs extends spi_uvc_slv_base_seqs;
                       if(!trans_h.randomize())
                         `uvm_fatal(get_full_name(),"Randomization failed!");
                      
-                     trans_h.print();
                      /**trans_h.rd_data = 8'b1010_1010;*/
                      /** Sending the transaction to the driver using `uvm_send macro*/
-                     `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
+                     `uvm_info(get_type_name(),$sformatf("slave sequence read trans:\n%s",trans_h.sprint()),UVM_LOW); 
                      /**trans_h.rd_data = temp_mosi;*/
                      `uvm_send(trans_h)
                    end /** begin*/ 
