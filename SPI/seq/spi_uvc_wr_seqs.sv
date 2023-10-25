@@ -30,7 +30,7 @@ endclass
  task spi_uvc_wr_seqs::body();
  repeat(num_trans)begin
  `uvm_do_with(trans_h,{header[7] == 1'b1;})
-  $display("write"); 
+  `uvm_info(get_full_name(),"WRITE",UVM_HIGH);
   trans_h.print();
 end
  endtask
