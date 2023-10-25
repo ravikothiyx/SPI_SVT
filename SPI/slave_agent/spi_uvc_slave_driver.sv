@@ -141,8 +141,8 @@ endclass : spi_uvc_slave_driver
                         lsb_first_drv_negedge();
                      end /** else*/
                   end /** else if*/
-                  seq_item_port.item_done();
                   //vif.miso <= 1'bz;
+                  seq_item_port.item_done();
                end /** if*/
   
                else begin
@@ -172,8 +172,9 @@ endclass : spi_uvc_slave_driver
          @(posedge vif.sclk)
          vif.miso <= req.rd_data[i];
        end /** foreach*/
+          @(posedge vif.sclk)
+         vif.miso <= 1'bz;    
      end /** if*/
-
      else begin
        /** If it is write transaction then drive miso to high impedence*/
        foreach(req.rd_data[i]) begin
@@ -192,6 +193,8 @@ endclass : spi_uvc_slave_driver
          @(negedge vif.sclk)
          vif.miso <= req.rd_data[i];
        end /** foreach*/
+          @(negedge vif.sclk)
+          vif.miso <= 1'bz; 
      end /** if*/
 
      else begin
@@ -212,6 +215,8 @@ endclass : spi_uvc_slave_driver
          @(posedge vif.sclk)
          vif.miso <= req.rd_data[(`ADDR_WIDTH - 1) - i];
        end /** foreach*/
+         @(posedge vif.sclk)
+         vif.miso <= 1'bz;
      end /** if*/
 
      else begin
@@ -232,6 +237,8 @@ endclass : spi_uvc_slave_driver
          @(negedge vif.sclk)
          vif.miso <= req.rd_data[(`ADDR_WIDTH - 1) - i];
        end /** foreach*/
+         @(negedge vif.sclk)
+         vif.miso <= 1'bz;
      end /** if*/
 
      else begin

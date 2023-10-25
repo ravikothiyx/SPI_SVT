@@ -93,8 +93,8 @@ endclass : spi_uvc_master_driver
           forever begin
             if(reg_cfg_h.SPICR1[6]) begin /** Checking for SPI enable bit(SPE)*/
               `uvm_info(get_type_name(),$sformatf("SPICR1 = %0b",reg_cfg_h.SPICR1),UVM_MEDIUM)
-              @(posedge vif.bclk);
               seq_item_port.get_next_item(req);
+              @(posedge vif.bclk);
               vif.ss_n <= 0; /** Enable The Slave Select pin*/
               `uvm_info(get_type_name(),"AFTEr get_next_item ",UVM_MEDIUM);
 
@@ -169,7 +169,7 @@ endclass : spi_uvc_master_driver
               @(posedge vif.bclk) vif.sclk <= reg_cfg_h.SPICR1[3];
               disable clock;
               @(posedge vif.bclk) vif.ss_n <= 1'b1;
-              vif.mosi <= 1'bz;
+              //vif.mosi <= 1'bz;
               seq_item_port.item_done();
             end
             else begin
@@ -196,6 +196,12 @@ endclass : spi_uvc_master_driver
          @(posedge vif.sclk)
          vif.mosi <= req.wr_data[i];
        end
+       fork
+        begin 
+         repeat(2*baudrate_divisor) @(edge vif.bclk);
+         vif.mosi <= 1'bz;
+        end
+       join_none
      end
      else begin
        foreach(req.wr_data[i]) begin
@@ -216,6 +222,12 @@ endclass : spi_uvc_master_driver
          @(negedge vif.sclk)
          vif.mosi <= req.wr_data[i];
        end
+       fork 
+        begin
+         repeat(2*baudrate_divisor) @(edge vif.bclk);
+         vif.mosi <= 1'bz;
+        end
+       join_none
      end
      else begin
        foreach(req.wr_data[i]) begin
@@ -236,6 +248,12 @@ endclass : spi_uvc_master_driver
          @(posedge vif.sclk)
          vif.mosi <= req.wr_data[(`ADDR_WIDTH - 1) - i];
        end
+       fork 
+        begin
+         repeat(2*baudrate_divisor) @(edge vif.bclk);
+         vif.mosi <= 1'bz;
+        end
+       join_none
      end
      else begin
        foreach(req.wr_data[i]) begin
@@ -256,6 +274,12 @@ endclass : spi_uvc_master_driver
          @(negedge vif.sclk)
          vif.mosi <= req.wr_data[(`ADDR_WIDTH - 1) - i];
        end
+       fork
+        begin 
+         repeat(2*baudrate_divisor) @(edge vif.bclk);
+         vif.mosi <= 1'bz;
+        end
+       join_none
      end
      else begin
        foreach(req.wr_data[i]) begin
