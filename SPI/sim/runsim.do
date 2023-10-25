@@ -1,6 +1,6 @@
 vlib work
-vlog ../tb/spi_uvc_pkg.sv ../tb/spi_uvc_top.sv +incdir+../env +incdir+../include +incdir+../master_agent +incdir+../seq +incdir+../slave_agent +incdir+../src +incdir+../tests +incdir+../tb +define+D_W_16 
-vsim -novopt spi_uvc_top +UVM_TESTNAME=$1 +UVM_VERBOSITY=UVM_NONE +spicr1=01000100
+vlog ../tb/spi_uvc_pkg.sv ../tb/spi_uvc_top.sv +incdir+../env +incdir+../include +incdir+../master_agent +incdir+../seq +incdir+../slave_agent +incdir+../src +incdir+../tests +incdir+../tb +define+DATA_WIDTH=8 
+vsim -novopt spi_uvc_top +UVM_TESTNAME=spi_uvc_b2b_wr_test +UVM_VERBOSITY=UVM_NONE +spicr1=01000100
 add wave -position insertpoint  \
 sim:/spi_uvc_top/bclk
 add wave -position insertpoint  \
