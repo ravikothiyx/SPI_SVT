@@ -9,30 +9,63 @@
 /**Covergroup "spi_cvg"*/
    covergroup spi_cvg with function sample(spi_uvc_transaction trans_h);
    
+   /**coverpoint for back to back mode*/ 
    spi_uvc_b2b_mode_cp: coverpoint trans_h.header{
-                                                     bins wr_rd_enb=(8'b00000000=>8'b10000000=>8'b00000000=>8'b10000000);
-                                                     bins b2b_wr_enb={8'b10000000};
-                                                     bins b2b_rd_enb={8'b00000000};
-                                                    }
+                                                   /**wildcard bins for write-read enable check*/
+                                                   wildcard bins b2b_wr_rd_enb=(8'b1???????=>8'b0???????=>8'b1???????);
+                                                   /**wildcard bins for 8time write enable check*/
+                                                   wildcard bins wr_enb=(8'b1???????[*10]);
+                                                   /**wildcard bins for 8time read enable check*/
+                                                   wildcard bins rd_enb=(8'b0???????[*10]);
+                                                  }
 
+   /**coverpoint for header(header) */
    spi_uvc_shift_reg_header_cp: coverpoint trans_h.header{  
-                                                           bins header_8bit={[8'd0:8'd7]};
-                                                           bins header_16bit={[16'd0:16'd15]};
-                                                           bins header_32bit={[32'd0:32'd31]};
+                                                           /**bins for "low range" of header*/
+                                                           bins lowest_header={0};
+
+                                                           /**bins for "low range" of header*/
+                                                           bins highest_header={256};
+                                                           
+                                                           /**bins for "mid range" of header*/
+                                                           bins mid_range_header={[1:255]};
                                                           }
 
+   /**coverpoint for write data(wr_data) */
    spi_uvc_shift_reg_wr_data_cp: coverpoint trans_h.wr_data{  
-                                                           bins wr_data_8bit={[8'd0:8'd7]};
-                                                           bins wr_data_16bit={[16'd0:16'd15]};
-                                                           bins wr_data_32bit={[32'd0:32'd31]};
-                                                          }
+                                                           /**bins for "low range" of write data*/
+                                                           bins wr_data_low_range={[8'd1:8'd254]};     
 
-   spi_uvc_shift_reg_rd_data_cp: coverpoint trans_h.rd_data{
-                                                           bins rd_data_8bit={[8'd0:8'd7]};
-                                                           bins rd_data_16bit={[16'd0:16'd15]};
-                                                           bins rd_data_32bit={[32'd0:32'd31]};
+                                                           /**bins for "lowest value" of write data*/
+                                                           bins wr_data_lowest={8'd0};
+                                                           
+                                                           /**bins for "mid range" of write data*/
+                                                           bins wr_data_mid_range={[16'd257:16'd65534]};
+                                                           
+                                                           /**bins for "high range" of write data*/
+                                                           bins wr_data_high_range={[32'd65536:32'hfffffffe]};
+                                                           
+                                                           /**bins for "highest value" of write data */
+                                                           bins wr_data_highest={32'hffffffff};
                                                           }
-   endgroup
+   /**coverpoint for read data(rd_data) */
+   spi_uvc_shift_reg_rd_data_cp: coverpoint trans_h.rd_data{
+                                                           /**bins for "low range" of read data*/
+                                                           bins rd_data_low_range={[8'd1:8'd254]};
+                                                           
+                                                           /**bins for "lowest value" of read data*/
+                                                           bins rd_data_lowest={8'd0};
+                                                           
+                                                           /**bins for "mid range" of read data*/
+                                                           bins rd_data_mid_range={[16'd257:16'd65534]};
+                                                           
+                                                           /**bins for "high range" of read data*/
+                                                           bins rd_data_high_range={[32'd65536:32'hfffffffe]};
+                                                           
+                                                           /**bins for "highest value" of read data */
+                                                           bins rd_data_highest={32'hffffffff};
+                                                          }
+   endgroup:spi_cvg
 
 `ifndef SPI_UVC_MASTER_COVERAGE_SV
 `define SPI_UVC_MASTER_COVERAGE_SV
@@ -83,6 +116,7 @@ endclass
 
    /** Write method*/
    function void spi_uvc_master_coverage::write(spi_uvc_transaction t);
+      `uvm_info(get_type_name(),$sformatf("t.header = %0b",t.header),UVM_NONE);
       cvg.sample(t);
    endfunction : write
 

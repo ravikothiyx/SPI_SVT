@@ -13,23 +13,23 @@
 class spi_uvc_slave_monitor extends uvm_monitor;
    
    /** UVM Factory Registration Macro**/
-   `uvm_component_utils(spi_uvc_slave_monitor);
+   `uvm_component_utils(spi_uvc_slave_monitor)
 
    /** Virtual interface instance*/
    virtual spi_uvc_if vif;
 
-   /** Shift register queue*/
-   bit sr[$];
+   /** A queue to store the single bit mosi and miso data*/
+   bit serial_data_queue[$];
 
    /** Temporary bit to store mosi data*/
    bit temp_mosi;
 
    /** Flag for the address and data differentiation*/
-   bit add;
+   bit address_data_diff_temp;
 
    /** flag for mode 1 and mode 3 when the address is not available at the
-   * first posedge to sample by the slave*/
-   bit de;
+     * first posedge to sample by the slave*/
+   bit initial_delay_temp;
 
    /** Register configuration instance class*/
    spi_uvc_reg_cfg reg_cfg_h;
@@ -110,20 +110,23 @@ endclass : spi_uvc_slave_monitor
      /** After slave select is asserted then sample*/
       @(negedge vif.ss_n)begin
          /** Initial value is 0 so that at ever transaction the address is get sampled*/
-         add = 1'b0;
+         address_data_diff_temp = 1'b0;
          forever begin
          `uvm_info(get_type_name(),"Inside forever",UVM_HIGH);
 
-            /** Mode 0 (sampling at posedge)*/
+            /** The phase and polarity of the SPI can be configured using the
+              * spi control register 1(SPICR1) the bit no is 2nd and 3rd the 3rd bit
+              * represents CPOL and 2nd bit represents the CPHA*/
+            
+             /** Mode 0 (sampling at posedge)*/
             if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
               /** To delay sampling by one posedge*/
-              if(!de)begin
+              if(!initial_delay_temp)begin
                  @(posedge vif.sclk);
-                 //$display($realtime,"de");
               end
-              /** Setting the del bit high so that in the current transaction
+              /** Setting the initial_delay_temp bit high so that in the current transaction
                 * every time the 1 edge dealy will not be there*/
-              de = 1;
+              initial_delay_temp = 1;
               @(posedge vif.sclk)begin
                   /** Calling samplr method to sample data*/
                   sample(trans_h);
@@ -142,10 +145,10 @@ endclass : spi_uvc_slave_monitor
             /** Mode 2 (sampling at negedge)*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
               /** To delay sampling by one posedge*/
-              if(!de)begin
+              if(!initial_delay_temp)begin
                  @(negedge vif.sclk);
               end
-              de = 1;
+              initial_delay_temp = 1;
                @(negedge vif.sclk)
                   /** Calling sample method to sample data*/
                   sample(trans_h);
@@ -170,29 +173,28 @@ endclass : spi_uvc_slave_monitor
       /** sampling mosi single bit mosi data and storing into the temp_mosi variable*/
       temp_mosi = vif.mosi;
 
-      /** Storing the sampled mosi bit into the sr(shift register) queue*/ 
-      sr.push_back(temp_mosi);
+      /** Storing the sampled mosi bit into the serial_data_queue*/ 
+      serial_data_queue.push_back(temp_mosi);
 
-      /** waiting for sr queue to the size of address width*/
-      if((sr.size == `ADDR_WIDTH) && (add == 1'b0))begin
+      /** waiting for serial_data_queue to the size of address width*/
+      if((serial_data_queue.size == `ADDR_WIDTH) && (address_data_diff_temp == 1'b0))begin
          /** setting this bit so when write data is driven then it is not
            * sampled by this block*/
-         add = 1'b1;
-         `uvm_info(get_type_name(),$sformatf("Slave monitor header in sr queue = %0p",sr),UVM_LOW);
+         address_data_diff_temp = 1'b1;
+         `uvm_info(get_type_name(),$sformatf("Slave monitor header in serial_data_queue = %0p",serial_data_queue),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
             /** Storing the sample header into the transaction class header bit by bit*/
             for(int i = `ADDR_WIDTH - 1; i>=0 ;i--)begin
-               trans_h.header[i] = sr.pop_front();
+               trans_h.header[i] = serial_data_queue.pop_front();
             end/** for*/
             /** deleting queue after taking the address*/
-            sr.delete();
+            serial_data_queue.delete();
 
             /** Checking that transaction type is read then send the read
               * address to the sequencer*/
              if(trans_h.header[7]== 0)begin
-                //$display("\t\t\t\tREAD");
-               `uvm_info(get_type_name(),"data send",UVM_NONE);
+               `uvm_info(get_type_name(),"Data send to the slave sequencer",UVM_NONE);
                item_req_port.write(trans_h);
              end /** if*/
          end/** if*/
@@ -201,32 +203,32 @@ endclass : spi_uvc_slave_monitor
          else begin
             /** Storing the sample header into the transaction class header bit by bit*/
             for(int i = 0; i<=`ADDR_WIDTH - 1; i++)begin
-               trans_h.header[i] = sr.pop_front();
+               trans_h.header[i] = serial_data_queue.pop_front();
             end/** for*/
             /** deleting queue after taking the address*/
-            sr.delete();
+            serial_data_queue.delete();
             if(trans_h.header[7]== 0)begin
-               `uvm_info(get_type_name(),"data send",UVM_NONE);
+               `uvm_info(get_type_name(),"Data send to the slave sequencer",UVM_NONE);
                item_req_port.write(trans_h);
             end /** if*/
          end /** else*/
       end /** if*/
       
-      /** waiting for sr queue to the size of data width*/
-      if(sr.size == `DATA_WIDTH && (add == 1'b1))begin
-         `uvm_info(get_type_name(),$sformatf("Slave monitor write data in sr queue = %0p",sr),UVM_LOW);
+      /** waiting for serial_data_queue to the size of data width*/
+      if(serial_data_queue.size == `DATA_WIDTH && (address_data_diff_temp == 1'b1))begin
+         `uvm_info(get_type_name(),$sformatf("Slave monitor write data in serial_data_queue = %0p",serial_data_queue),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
-               trans_h.rd_data[i] = sr.pop_front();
+               trans_h.rd_data[i] = serial_data_queue.pop_front();
             end/** for*/
             /** deleting queue after taking the data*/
-            sr.delete();
+            serial_data_queue.delete();
 
             /** Made add flage low so that in next transaction address can be
               * sampled by the header part*/
-            add = 1'b0;
+            address_data_diff_temp = 1'b0;
             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_HIGH);
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
             /** sending the transaction to the slave_sequencer*/
@@ -238,11 +240,11 @@ endclass : spi_uvc_slave_monitor
          else begin
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = 0; i<`DATA_WIDTH - 1; i++)begin
-               trans_h.rd_data[i] = sr.pop_front();
+               trans_h.rd_data[i] = serial_data_queue.pop_front();
             end/** for*/
             /** Deleting queue after taking the data*/
-            sr.delete();
-            add = 1'b0;
+            serial_data_queue.delete();
+            address_data_diff_temp = 1'b0;
             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_LOW);
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
             /** Sending the transaction to the slave_sequencer*/
@@ -252,7 +254,7 @@ endclass : spi_uvc_slave_monitor
             
             /** Made this bit low when there is 2 or more back to back
               * transaction so to avoid first posedge of the ever transaction*/
-            de = 0;
+            initial_delay_temp = 0;
       end /** if*/
    endtask : sample
 
