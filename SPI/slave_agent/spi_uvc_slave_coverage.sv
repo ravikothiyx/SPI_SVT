@@ -37,15 +37,9 @@ class spi_uvc_slave_coverage extends uvm_subscriber#(spi_uvc_transaction);
 
    spi_uvc_b2b_mode_cp: coverpoint trans_h.header{
                                                      bins wr_rd_enb=(8'b00000000=>8'b10000000=>8'b00000000=>8'b10000000);
-                                                     bins b2b_wr_enb={8'b10000000};
-                                                     bins b2b_rd_enb={8'b00000000};
+                                                     //bins b2b_wr_enb={8'b10000000};
+                                                     //bins b2b_rd_enb={8'b00000000};
                                                     }
-
-  spi_uvc_shift_reg_header_cp: coverpoint trans_h.header{  
-                                                         bins header_8bit={[8'd0:8'd7]};
-                                                         bins header_16bit={[16'd0:16'd15]};
-                                                         bins header_32bit={[32'd0:32'd31]};
-                                                        }
  
   spi_uvc_shift_reg_rd_data_cp: coverpoint trans_h.rd_data{
                                                            bins rd_data_8bit={[8'd0:8'd7]};

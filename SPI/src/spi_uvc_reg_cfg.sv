@@ -18,17 +18,17 @@ class spi_uvc_reg_cfg extends uvm_object;
   /** Register configurations*/
   
   /** SPI CONTROL REGISTER 1*/
-  bit [7:0] SPICR1 = 8'b0100_0000;  
+  bit [7:0] SPICR1;  
  
 
   /** SPI CONTROL REGISTER 2*/
-  bit [7:0] SPICR2 = 8'b0000_0000;  
+  bit [7:0] SPICR2;  
   
   /** SPI BAUD RATE REGISTER 1*/
-  bit [7:0] SPIBR = 8'b0000_0000;  
+  bit [7:0] SPIBR;  
 
   /** SPI STATUS REGISTER 1*/
-  bit [7:0] SPISR = 8'b0010_0000;  
+  bit [7:0] SPISR;  
   
   /** Standarad UVM Methods*/
   extern function new(string name = "spi_uvc_reg_cfg");

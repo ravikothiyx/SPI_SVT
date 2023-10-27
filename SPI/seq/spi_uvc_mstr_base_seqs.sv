@@ -14,6 +14,8 @@ class spi_uvc_mstr_base_seqs extends uvm_sequence#(spi_uvc_transaction);
  /** transcation class instansiation*/
  spi_uvc_transaction trans_h;
 
+ rand int num_trans;
+ 
  /** function new*/
  function new(string name = "spi_uvc_mstr_base_seqs");
   super.new(name);
