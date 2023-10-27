@@ -172,7 +172,7 @@ endclass : spi_uvc_master_monitor
           for(int i=`ADDR_WIDTH-1;i>=0;i--)begin
             trans_h.header[i]=que_mosi.pop_front();
           end/**for*/
-          `uvm_info(get_type_name(),$sformatf(" Trans_h.header = %0b",trans_h.header),UVM_HIGH);
+          `uvm_info(get_type_name(),$sformatf(" Trans_h.header = %0b",trans_h.header),UVM_NONE);
           que_mosi.delete();
         end/**if*/
 
@@ -203,6 +203,7 @@ endclass : spi_uvc_master_monitor
               * the flags are zero*/
             diff_flag = 1'b0;
             de = 0;
+            item_collected_port.write(trans_h);
          end/**if*/
 
         /**SPICR[0]=1: LSB Bit first*/
@@ -216,6 +217,7 @@ endclass : spi_uvc_master_monitor
             que_mosi.delete();
             diff_flag = 1'b0;
             de = 0;
+            item_collected_port.write(trans_h);
          end/**else*/
        end/**wait*/
 
@@ -235,6 +237,7 @@ endclass : spi_uvc_master_monitor
             de = 0;
             diff_flag = 1'b0;
             miso_s = 1'b0;
+            item_collected_port.write(trans_h);
          end/**if*/
 
         /**SPICR[0]=1: LSB Bit first*/
@@ -248,11 +251,11 @@ endclass : spi_uvc_master_monitor
             * the flags are zero*/
            de = 0;
            diff_flag = 1'b0;
-            miso_s = 1'b0;
+           miso_s = 1'b0;
+           item_collected_port.write(trans_h);
          end/**else*/
       end/** else if*/
 
-      item_collected_port.write(trans_h);
    endtask:sample
 
 
