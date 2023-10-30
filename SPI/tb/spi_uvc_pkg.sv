@@ -31,7 +31,6 @@ package spi_uvc_pkg;
    `include "spi_uvc_slave_cfg.sv"  
    `include "spi_uvc_system_cfg.sv"  
    `include "spi_uvc_reg_cfg.sv"  
-   
 
    /** Master files*/
    `include "spi_uvc_master_sequencer.sv"
@@ -47,6 +46,7 @@ package spi_uvc_pkg;
    `include "spi_uvc_slave_coverage.sv"
    `include "spi_uvc_slave_agent.sv"
 
+   `include "spi_uvc_sb.sv"
    /** Checker*/
    `include "spi_uvc_checker.sv"
 

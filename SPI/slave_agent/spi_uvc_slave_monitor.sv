@@ -234,6 +234,7 @@ endclass : spi_uvc_slave_monitor
             /** sending the transaction to the slave_sequencer*/
             if(trans_h.header[7]== 1)
               item_req_port.write(trans_h);
+              item_collected_port.write(trans_h);
          end/** if*/
          
          /** LSB first*/
@@ -250,6 +251,7 @@ endclass : spi_uvc_slave_monitor
             /** Sending the transaction to the slave_sequencer*/
             if(trans_h.header[7]== 1)
               item_req_port.write(trans_h);
+              item_collected_port.write(trans_h);
          end /** else*/
             
             /** Made this bit low when there is 2 or more back to back

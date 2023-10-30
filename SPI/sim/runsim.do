@@ -1,6 +1,6 @@
 vlib work
 vlog ../tb/spi_uvc_pkg.sv ../tb/spi_uvc_top.sv +incdir+../env +incdir+../include +incdir+../master_agent +incdir+../seq +incdir+../slave_agent +incdir+../src +incdir+../tests +incdir+../tb +define+DATA_WIDTH=$3 
-vsim -novopt spi_uvc_top +UVM_TESTNAME=$1 +UVM_VERBOSITY=UVM_NONE +spicr1=$2
+vsim -novopt spi_uvc_top +UVM_TESTNAME=$1 +UVM_VERBOSITY=UVM_LOW +spicr1=$2
 add wave -position insertpoint  \
 sim:/spi_uvc_top/bclk
 add wave -position insertpoint  \
