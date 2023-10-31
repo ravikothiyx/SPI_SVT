@@ -60,23 +60,17 @@ class spi_uvc_sb extends uvm_scoreboard;
 
           
    1'b1 : begin 
-           $display($realtime,"------------------------------- exp_mstr_trans_h.wr_data=%0h",exp_mstr_trans_h.wr_data);
            ref_mem[exp_mstr_trans_h.header[`ADDR_WIDTH-2 : 0]] = exp_mstr_trans_h.wr_data;
-           $display("\t\tref memory:%0p",ref_mem);
           // `uvm_info(get_name(),$sformatf("\n%s",sprint()),UVM_LOW); 
           end
    1'b0 : begin
-           $display($realtime,"--#####################-----------------in side 1,b0---");
            exp_spi_uvc_trans_h=spi_uvc_transaction::type_id::create("exp_spi_uvc_trans_h",this);
            if(ref_mem.exists(exp_mstr_trans_h.header[`ADDR_WIDTH-2 : 0]))begin
             exp_spi_uvc_trans_h.rd_data = ref_mem[exp_mstr_trans_h.header[`ADDR_WIDTH-2 : 0]];
-            $display("inside read read_data = %0h",exp_spi_uvc_trans_h.rd_data);
-            $display($realtime,"\t slave_push");
             exp_mstr_data.push_back(exp_spi_uvc_trans_h);
            end
            else begin
             exp_spi_uvc_trans_h.rd_data = 'h0;
-            $display($realtime,"\t slave_push");
             exp_mstr_data.push_back(exp_spi_uvc_trans_h);
             //`uvm_info(get_name(),$sformatf("\n%s",sprint()),UVM_LOW); 
            end
@@ -87,13 +81,11 @@ class spi_uvc_sb extends uvm_scoreboard;
 
  function void write_mstr(spi_uvc_transaction act_slv_trans_h);
     `uvm_info(get_name(),$sformatf("\n%s",act_slv_trans_h.sprint()),UVM_LOW); 
-    $display(,$realtime,"\tmaster_push");
     act_slv_data.push_back(act_slv_trans_h);
     check_data(exp_mstr_data,act_slv_data);
  endfunction
 
  function void check_data(spi_uvc_transaction exp_mstr_data[$], spi_uvc_transaction act_slv_data[$]);
-  $display($realtime,"exp_mstr_data.size() = %0d act_slv_data.size() = %0d",exp_mstr_data.size(),act_slv_data.size());
   if(exp_mstr_data.size() > 0 && act_slv_data.size() > 0) begin
    if(exp_mstr_data[i].rd_data == act_slv_data[i].rd_data) begin
     if(!`SB_PASS_COUNT)begin
@@ -104,7 +96,6 @@ class spi_uvc_sb extends uvm_scoreboard;
     exp_mstr_data.delete();
     act_slv_data.delete();
     i++;
-  $display($realtime,"\tafter exp_mstr_data.size() = %0d act_slv_data.size() = %0d",exp_mstr_data.size(),act_slv_data.size());
    end
    else begin
     if(!`SB_PASS_COUNT)begin

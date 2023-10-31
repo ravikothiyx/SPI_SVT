@@ -54,8 +54,6 @@ class spi_uvc_slv_seqs extends spi_uvc_slv_base_seqs;
             1'b1 : begin
                      /** Storing the write data into a temporary variable*/
                      temp_mosi = trans_h.wr_data;
-                      $display("temp_mosi =  %0b",temp_mosi);
-                      $display("\t\t------------------------------wr_data =  %0b",trans_h.wr_data);
                      slv_mem[trans_h.header[`ADDR_WIDTH-2 : 0]] = trans_h.wr_data;
                     end //begin
             /** 8th bit is low so read transaction*/
