@@ -12,7 +12,7 @@
    /**coverpoint for back to back mode*/ 
    spi_uvc_b2b_mode_cp: coverpoint trans_h.header{
                                                    /**wildcard bins for write-read enable check*/
-                                                   wildcard bins b2b_wr_rd_enb=(8'b1???????=>8'b0???????=>8'b1???????);
+                                                   wildcard bins b2b_wr_rd_enb=(8'b1???????=>8'b0???????=>8'b1???????=>8'b0???????);
                                                    /**wildcard bins for 8time write enable check*/
                                                    wildcard bins wr_enb=(8'b1???????[*10]);
                                                    /**wildcard bins for 8time read enable check*/

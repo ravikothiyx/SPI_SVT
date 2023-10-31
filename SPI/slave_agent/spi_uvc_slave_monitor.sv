@@ -191,11 +191,13 @@ endclass : spi_uvc_slave_monitor
             /** deleting queue after taking the address*/
             serial_data_queue.delete();
 
+            //$display("write data = %0h",trans_h.wr_data);
             /** Checking that transaction type is read then send the read
               * address to the sequencer*/
              if(trans_h.header[7]== 0)begin
                `uvm_info(get_type_name(),"Data send to the slave sequencer",UVM_NONE);
                item_req_port.write(trans_h);
+               item_collected_port.write(trans_h);
              end /** if*/
          end/** if*/
          
@@ -207,9 +209,11 @@ endclass : spi_uvc_slave_monitor
             end/** for*/
             /** deleting queue after taking the address*/
             serial_data_queue.delete();
+            //$display("write data = %0h",trans_h.wr_data);
             if(trans_h.header[7]== 0)begin
                `uvm_info(get_type_name(),"Data send to the slave sequencer",UVM_NONE);
                item_req_port.write(trans_h);
+               item_collected_port.write(trans_h);
             end /** if*/
          end /** else*/
       end /** if*/
@@ -221,7 +225,7 @@ endclass : spi_uvc_slave_monitor
          if(!reg_cfg_h.SPICR1[0])begin
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
-               trans_h.rd_data[i] = serial_data_queue.pop_front();
+               trans_h.wr_data[i] = serial_data_queue.pop_front();
             end/** for*/
             /** deleting queue after taking the data*/
             serial_data_queue.delete();
@@ -232,15 +236,17 @@ endclass : spi_uvc_slave_monitor
             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_HIGH);
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
             /** sending the transaction to the slave_sequencer*/
-            if(trans_h.header[7]== 1)
+            if(trans_h.header[7]== 1)begin
               item_req_port.write(trans_h);
+              item_collected_port.write(trans_h);
+            end /** if*/
          end/** if*/
          
          /** LSB first*/
          else begin
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = 0; i<`DATA_WIDTH - 1; i++)begin
-               trans_h.rd_data[i] = serial_data_queue.pop_front();
+               trans_h.wr_data[i] = serial_data_queue.pop_front();
             end/** for*/
             /** Deleting queue after taking the data*/
             serial_data_queue.delete();
@@ -248,8 +254,10 @@ endclass : spi_uvc_slave_monitor
             `uvm_info(get_type_name(),"Before sending transaction to sequencer",UVM_LOW);
             `uvm_info(get_type_name(),$sformatf("\n%s",trans_h.sprint()),UVM_LOW); 
             /** Sending the transaction to the slave_sequencer*/
-            if(trans_h.header[7]== 1)
+            if(trans_h.header[7]== 1)begin
               item_req_port.write(trans_h);
+              item_collected_port.write(trans_h);
+            end /** if*/
          end /** else*/
             
             /** Made this bit low when there is 2 or more back to back

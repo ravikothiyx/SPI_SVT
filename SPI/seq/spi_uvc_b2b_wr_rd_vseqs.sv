@@ -41,7 +41,7 @@ endclass
      fork
       begin
   /** scenerio for back to back write and read transaction from master side */
-       repeat(10) begin
+       repeat(9) begin
          `uvm_do_on_with(wr_seqs_h , spi_mstr_seqr_h,{num_trans==1;})
          `uvm_do_on_with(rd_seqs_h , spi_mstr_seqr_h,{num_trans==1;})
        end 
