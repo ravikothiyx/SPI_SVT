@@ -29,7 +29,7 @@ endclass
 /** body task for driving sequence item using uvm macros (uvm_do) */
  task spi_uvc_rd_seqs::body();
   repeat(num_trans) begin
-  `uvm_do_with(trans_h,{header[7] == 0;})
+  `uvm_do_with(trans_h,{header == 8'b0010_1010;})
   `uvm_info(get_full_name(),"READ",UVM_HIGH);
   trans_h.print();
   end

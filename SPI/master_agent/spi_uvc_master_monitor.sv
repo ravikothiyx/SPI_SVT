@@ -203,7 +203,7 @@ endclass : spi_uvc_master_monitor
               * the flags are zero*/
             diff_flag = 1'b0;
             de = 0;
-            item_collected_port.write(trans_h);
+            //item_collected_port.write(trans_h);
          end/**if*/
 
         /**SPICR[0]=1: LSB Bit first*/
@@ -217,7 +217,7 @@ endclass : spi_uvc_master_monitor
             que_mosi.delete();
             diff_flag = 1'b0;
             de = 0;
-            item_collected_port.write(trans_h);
+            //item_collected_port.write(trans_h);
          end/**else*/
        end/**wait*/
 

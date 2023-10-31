@@ -54,15 +54,17 @@ class spi_uvc_slv_seqs extends spi_uvc_slv_base_seqs;
             1'b1 : begin
                      /** Storing the write data into a temporary variable*/
                      temp_mosi = trans_h.wr_data;
-                     slv_mem[trans_h.header] = trans_h.wr_data;
-                   end //begin
+                      $display("temp_mosi =  %0b",temp_mosi);
+                      $display("\t\t------------------------------wr_data =  %0b",trans_h.wr_data);
+                     slv_mem[trans_h.header[`ADDR_WIDTH-2 : 0]] = trans_h.wr_data;
+                    end //begin
             /** 8th bit is low so read transaction*/
             1'b0 : begin
                    /** trans_h.header.rand_mode(0);
                       *if(!trans_h.randomize())
                       *`uvm_fatal(get_full_name(),"Randomization failed!");
                    */  
-                      trans_h.rd_data =  slv_mem[trans_h.header];
+                      trans_h.rd_data =  slv_mem[trans_h.header[`ADDR_WIDTH-2 : 0]];
                      
                      /**trans_h.rd_data = 8'b1010_1010;*/
                      /** Sending the transaction to the driver using `uvm_send macro*/
