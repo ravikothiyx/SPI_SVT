@@ -21,7 +21,7 @@ class spi_uvc_slave_cfg extends uvm_object;
    uvm_active_passive_enum is_active = UVM_ACTIVE;
 
    /** Enable or diable slave coverage */
-   int enable_cov = 0;
+   int enable_cov = 1;
 
    /** Standard UVM Methods*/
    extern function new(string name = "spi_uvc_slave_cfg");

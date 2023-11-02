@@ -10,10 +10,30 @@
 `ifndef SPI_UVC_TRANSACTION_SV
 `define SPI_UVC_TRANSACTION_SV
 
-typedef enum bit[1:0] {TX_ONLY,RX_ONLY,EEPROM,FULL_DUPLEX} trans_kind;
+typedef enum bit[1:0] {TX_ONLY,RX_ONLY ,EEPROM,FULL_DUPLEX} trans_kind;
+typedef enum bit[1:0] {MODE_00,MODE_01,MODE_10,MODE_11}MODE;
+typedef enum bit{LSB_FIRST,MSB_FIRST}ENDIAN;
+typedef enum bit{MASTER_MODE,SLAVE_MODE}MSTR_MODE;
 
 class spi_uvc_transaction extends uvm_sequence_item;
   rand trans_kind trans_kind_e;
+  
+  rand MODE mode_h;
+  rand ENDIAN lsb_msb_h;
+  rand MSTR_MODE mstr_mode_h;
+   /** SPI CONTROL REGISTER 1*/
+  //rand  bit [7:0] SPICR1_h;  
+
+
+  /** SPI CONTROL REGISTER 2*/
+  //rand bit [7:0] SPICR2_h;  
+  
+  /** SPI BAUD RATE REGISTER 1*/
+  //rand bit [7:0] SPIBR_h;  
+
+  /** SPI STATUS REGISTER 1*/
+  //rand bit [7:0] SPISR_h;  
+  
 
   /** For eeprom address and For normal transaction 7 bit address and 1 bit wr/rd operation*/
   rand bit [`ADDR_WIDTH - 1 : 0] header; 
@@ -37,15 +57,13 @@ class spi_uvc_transaction extends uvm_sequence_item;
    `uvm_object_utils_end
 
   /** Standard UVM Methods*/
- extern function new(string name = "spi_uvc_transaction");
-    //super.new(name);
-  //endfunction : new
+  extern function new(string name = "spi_uvc_transaction");
 
 endclass :spi_uvc_transaction
  
 `endif 
 function spi_uvc_transaction::new(string name = "spi_uvc_transaction");
     super.new(name);
-  `uvm_info(get_full_name(),"TRANSACTION_CLASS_STARTED",UVM_LOW);
+     `uvm_info(get_full_name(),"TRANSACTION_CLASS_STARTED",UVM_LOW);
   endfunction : new
 

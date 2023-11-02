@@ -109,6 +109,11 @@ endclass : spi_uvc_slave_monitor
       `uvm_info(get_type_name(),"Inside monitor task",UVM_HIGH);
      /** After slave select is asserted then sample*/
       @(negedge vif.ss_n)begin
+
+      if(reg_cfg_h.SPICR1[4] == 1'b0)begin
+        trans_h.mstr_mode_h = SLAVE_MODE;
+      end
+
          /** Initial value is 0 so that at ever transaction the address is get sampled*/
          address_data_diff_temp = 1'b0;
          forever begin
@@ -120,6 +125,7 @@ endclass : spi_uvc_slave_monitor
             
              /** Mode 0 (sampling at posedge)*/
             if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
+              trans_h.mode_h = MODE_00;
               /** To delay sampling by one posedge*/
               if(!initial_delay_temp)begin
                  @(posedge vif.sclk);
@@ -136,6 +142,7 @@ endclass : spi_uvc_slave_monitor
             
             /** Mode 1 (sampling at negedge)*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b01)begin
+              trans_h.mode_h = MODE_01;
                @(negedge vif.sclk)
                   /** Calling sample method to sample data*/
                   sample(trans_h);
@@ -144,6 +151,7 @@ endclass : spi_uvc_slave_monitor
             
             /** Mode 2 (sampling at negedge)*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
+              trans_h.mode_h = MODE_10;
               /** To delay sampling by one posedge*/
               if(!initial_delay_temp)begin
                  @(negedge vif.sclk);
@@ -157,6 +165,7 @@ endclass : spi_uvc_slave_monitor
             
             /** Mode 3 (sampling at posedge)*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b11)begin
+              trans_h.mode_h = MODE_11;
                @(posedge vif.sclk)
                   /** Calling sample method to sample data*/
                   sample(trans_h);
@@ -184,6 +193,7 @@ endclass : spi_uvc_slave_monitor
          `uvm_info(get_type_name(),$sformatf("Slave monitor header in serial_data_queue = %0p",serial_data_queue),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
+          trans_h.lsb_msb_h = MSB_FIRST;
             /** Storing the sample header into the transaction class header bit by bit*/
             for(int i = `ADDR_WIDTH - 1; i>=0 ;i--)begin
                trans_h.header[i] = serial_data_queue.pop_front();
@@ -201,6 +211,7 @@ endclass : spi_uvc_slave_monitor
          
          /** LSB first*/   
          else begin
+          trans_h.lsb_msb_h = LSB_FIRST;
             /** Storing the sample header into the transaction class header bit by bit*/
             for(int i = 0; i<=`ADDR_WIDTH - 1; i++)begin
                trans_h.header[i] = serial_data_queue.pop_front();
@@ -219,6 +230,7 @@ endclass : spi_uvc_slave_monitor
          `uvm_info(get_type_name(),$sformatf("Slave monitor write data in serial_data_queue = %0p",serial_data_queue),UVM_LOW);
          /** MSB first*/
          if(!reg_cfg_h.SPICR1[0])begin
+          trans_h.lsb_msb_h = MSB_FIRST;
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
                trans_h.rd_data[i] = serial_data_queue.pop_front();
@@ -238,6 +250,7 @@ endclass : spi_uvc_slave_monitor
          
          /** LSB first*/
          else begin
+          trans_h.lsb_msb_h = LSB_FIRST;
             /** Storing the sample write data into the transaction class wr_data bit by bit*/
             for(int i = 0; i<`DATA_WIDTH - 1; i++)begin
                trans_h.rd_data[i] = serial_data_queue.pop_front();

@@ -56,7 +56,7 @@ class spi_uvc_master_monitor extends uvm_monitor;
    extern task run_phase(uvm_phase phase);
    
    /**Task for sampling interface transaction*/
-   extern task mon_to_inf(spi_uvc_transaction trans_h);
+   extern task inf_to_mon(spi_uvc_transaction trans_h);
 
    /**Task for sample the transaction*/
    extern task sample(spi_uvc_transaction trans_h);
@@ -92,15 +92,17 @@ endclass : spi_uvc_master_monitor
    /** Run_phase*/
    task spi_uvc_master_monitor::run_phase(uvm_phase phase);
       `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);     
-      mon_to_inf(trans_h);
+      inf_to_mon(trans_h);
             `uvm_info(get_type_name(),"END OF RUN_PHASE",UVM_HIGH);
    endtask : run_phase
 
-   /**mon_to_inf task to sample interface transactions*/
-   task spi_uvc_master_monitor::mon_to_inf(spi_uvc_transaction trans_h);
-      `uvm_info(get_type_name(),"Inside mon_to_inf task",UVM_HIGH);
+   /**inf_to_mon task to sample interface transactions*/
+   task spi_uvc_master_monitor::inf_to_mon(spi_uvc_transaction trans_h);
+      `uvm_info(get_type_name(),"Inside inf_to_mon task",UVM_HIGH);
       @(negedge vif.ss_n)begin
-
+      if(reg_cfg_h.SPICR1[4] == 1'b1)begin
+       trans_h.mstr_mode_h = MASTER_MODE;
+      end
       /** Initial value to the flag for new transaction*/
       diff_flag = 1'b0;
       miso_s = 1'b0;
@@ -108,7 +110,10 @@ endclass : spi_uvc_master_monitor
 
             /**SPICR1[2]:CPHASE(Phase) =0 & SPICR1[3]:CPOl(Polarity) =0*/
             if(reg_cfg_h.SPICR1[3:2] == 2'b00)begin
-               /** To delay sampling by one posedge*/
+
+              trans_h.mode_h = MODE_00;
+
+              /** To delay sampling by one posedge*/
               if(!de)
                  @(posedge vif.sclk);
               /** Setting the del bit high so that in the current transaction
@@ -120,14 +125,20 @@ endclass : spi_uvc_master_monitor
 
             /**SPICR1[2]:CPHASE(Phase) =0 & SPICR1[3]:CPOl(Polarity) =1*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b01)begin
+
+              trans_h.mode_h = MODE_01;
+              
                @(negedge vif.sclk)
                   sample(trans_h);
             end /**else if*/
 
             /**SPICR1[2]:CPHASE(Phase) =1 & SPICR1[3]:CPOl(Polarity) =0*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b10)begin
-               if(!de)
-                 @(negedge vif.sclk);
+              
+              trans_h.mode_h = MODE_10;
+              
+              if(!de)
+               @(negedge vif.sclk);
               de = 1;
                @(negedge vif.sclk)
                   sample(trans_h);
@@ -135,12 +146,15 @@ endclass : spi_uvc_master_monitor
 
             /**SPICR1[2]:CPHASE(Phase) =1 & SPICR1[3]:CPOl(Polarity) =1*/
             else if(reg_cfg_h.SPICR1[3:2] == 2'b11)begin
-               @(posedge vif.sclk)
-                  sample(trans_h);
+              
+              trans_h.mode_h = MODE_11;
+
+              @(posedge vif.sclk)
+              sample(trans_h);
             end /**else if*/
       end /** forever*/
       end
-   endtask : mon_to_inf
+   endtask : inf_to_mon
 
    /**Sample task for sampling the transaction*/
    task spi_uvc_master_monitor::sample(spi_uvc_transaction trans_h);
@@ -168,6 +182,9 @@ endclass : spi_uvc_master_monitor
         `uvm_info(get_type_name()," Master monitor header",UVM_HIGH);
         /**SPICR[0]=0: MSB Bit first*/
         if(!reg_cfg_h.SPICR1[0])begin
+          
+          trans_h.lsb_msb_h = MSB_FIRST;
+
           `uvm_info(get_type_name(),$sformatf(" Header_que_mosi = %0p",que_mosi),UVM_NONE);
           for(int i=`ADDR_WIDTH-1;i>=0;i--)begin
             trans_h.header[i]=que_mosi.pop_front();
@@ -178,6 +195,7 @@ endclass : spi_uvc_master_monitor
 
         /**SPICR[0]=1: LSB Bit first*/
         else begin
+          trans_h.lsb_msb_h = LSB_FIRST;
         for(int i=0;i<=`ADDR_WIDTH-1;i++)begin
          trans_h.header[i]=que_mosi.pop_front();
         end/**for*/
@@ -192,6 +210,9 @@ endclass : spi_uvc_master_monitor
        if(que_mosi.size == `DATA_WIDTH && (diff_flag ==1)&&(trans_h.header[7]==1'b1))begin
         /**SPICR[0]=0: MSB Bit first*/
          if(!reg_cfg_h.SPICR1[0])begin
+          
+          trans_h.lsb_msb_h = MSB_FIRST;
+          
           `uvm_info(get_type_name(),"Master monitor write data",UVM_HIGH);
           `uvm_info(get_type_name(),$sformatf(" Data_que_mosi=%0p",que_mosi),UVM_NONE);
             for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
@@ -208,6 +229,7 @@ endclass : spi_uvc_master_monitor
 
         /**SPICR[0]=1: LSB Bit first*/
          else begin
+          trans_h.lsb_msb_h = LSB_FIRST ;
           `uvm_info(get_type_name(),$sformatf(" Data_que_mosi=%0p",que_mosi),UVM_NONE);
             for(int i = 0; i<`DATA_WIDTH-1; i++)begin
                trans_h.wr_data[i] = que_mosi.pop_front();
@@ -226,6 +248,9 @@ endclass : spi_uvc_master_monitor
         
         /**SPICR[0]=0: MSB Bit first*/
          if(!reg_cfg_h.SPICR1[0])begin
+          
+          trans_h.lsb_msb_h = MSB_FIRST ;
+          
           `uvm_info(get_type_name(),$sformatf(" Data_que_miso = %0p",que_miso),UVM_NONE);
             for(int i = `DATA_WIDTH - 1; i>=0; i--)begin
                trans_h.rd_data[i] = que_miso.pop_front();
@@ -242,6 +267,7 @@ endclass : spi_uvc_master_monitor
 
         /**SPICR[0]=1: LSB Bit first*/
          else begin
+          trans_h.lsb_msb_h = LSB_FIRST ;
             for(int i = 0; i<`DATA_WIDTH-1; i++)begin
                trans_h.rd_data[i] = que_miso.pop_front();
             end/**for*/
