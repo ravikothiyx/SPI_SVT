@@ -29,8 +29,8 @@ class spi_uvc_env extends uvm_env;
    /** Virtual seqeuncer instance*/
    spi_uvc_virtual_sequencer vseqr_h;
 
-   /** scoreboard classs instance*/
-   spi_uvc_sb spi_sb_h;   
+   /** scoreboard classs instance, temporarily not in use that is why it's commented*/
+   //spi_uvc_sb spi_sb_h;   
 
    /** Standard UVM Methods*/
    extern function new(string name = "spi_uvc_env",uvm_component parent);
@@ -61,7 +61,7 @@ endclass : spi_uvc_env
       if(!uvm_config_db#(spi_uvc_system_cfg)::get(this,"","sys_cfg_h",sys_cfg_h))
          `uvm_fatal(get_full_name(),"Not able to get the environment cfg");
       
-       spi_sb_h = spi_uvc_sb::type_id::create("spi_sb_h",this);
+       //spi_sb_h = spi_uvc_sb::type_id::create("spi_sb_h",this);
       
         //if(sys_cfg_h.mstr == 1'b1) begin
          /** Creating master cfguration*/
@@ -99,8 +99,8 @@ endclass : spi_uvc_env
       `uvm_info(get_type_name(),"START OF CONNECT_PHASE",UVM_HIGH);
       `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
      
-        mstr_agent_h.mstr_mon_h.item_collected_port.connect(spi_sb_h.spi_mstr_mon_sb);
-        slv_agent_h.slv_mon_h.item_collected_port.connect(spi_sb_h.spi_slv_mon_sb);
+        //mstr_agent_h.mstr_mon_h.item_collected_port.connect(spi_sb_h.spi_mstr_mon_sb);
+        //slv_agent_h.slv_mon_h.item_collected_port.connect(spi_sb_h.spi_slv_mon_sb);
        //if(sys_cfg_h.mstr == 1'b1) begin
         vseqr_h.mseqr_h = mstr_agent_h.mstr_seqr_h;
        //end
