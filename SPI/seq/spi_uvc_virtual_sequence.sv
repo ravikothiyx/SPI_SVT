@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////
+// Company:       SCALEDGE
 // File:          spi_uvc_virtual_sequence.sv
-// Version:       v1
-// Developer:     Mayank
+// Version:       1.0
+// Developer:      
 // Project Name:  
 // Discription:    
 /////////////////////////////////////////////////

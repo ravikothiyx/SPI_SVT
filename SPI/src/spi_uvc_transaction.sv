@@ -1,6 +1,7 @@
 //////////////////////////////////////////////// 
+// Company:       SCALEDGE
 // File:          spi_uvc_transaction.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     Harekrishna
 // Project Name:  SPI
 // Discription:

@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////
+// Company:       SCALEDGE
 // File:          spi_uvc_pkg.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     
 // Project Name:  SPI
 // Discription:   SPI master package file 
