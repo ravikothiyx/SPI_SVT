@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////
+// Company:       SCALEDGE
 // File:          spi_uvc_b2b_rd_vseqs.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     Harekrishna
 // Project Name:  
 // Discription:    

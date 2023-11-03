@@ -1,6 +1,7 @@
 //////////////////////////////////////////////// 
+// Company:       SCALEDGE
 // File:          spi_uvc_master_sequencer.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     Mayank
 // Project Name:  SPI
 // Discription:

@@ -1,6 +1,7 @@
 //////////////////////////////////////////////// 
+// Company:       SCALEDGE
 // File:          spi_uvc_b2b_wr_test.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     Harekrishna
 // Project Name:  SPI
 // Discription:

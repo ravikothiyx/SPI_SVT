@@ -1,6 +1,7 @@
 //////////////////////////////////////////////// 
+// Company:       SCALEDGE
 // File:          spi_uvc_rd_seqs.sv
-// Version:       v1
+// Version:       1.0
 // Developer:     Harekrishna
 // Project Name:  SPI
 // Discription:   This file contains the base sequence for read transactions
