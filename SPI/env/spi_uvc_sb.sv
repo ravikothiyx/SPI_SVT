@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////
 // File:          spi_uvc_top.sv
 // Version:       v1
-// Developer:     
+// Developer:     Harekrishna 
 // Project Name:  SPI
 // Discription:   
 /////////////////////////////////////////////////
@@ -49,6 +49,7 @@ class spi_uvc_sb extends uvm_scoreboard;
   spi_slv_mon_sb=new("spi_slv_mon_sb",this);
  endfunction
 
+/** function build phase */
  function void build_phase(uvm_phase phase);
   super.build_phase(phase);
  endfunction : build_phase 
@@ -58,11 +59,12 @@ class spi_uvc_sb extends uvm_scoreboard;
     `uvm_info(get_name(),$sformatf("\n%s",exp_mstr_trans_h.sprint()),UVM_LOW); 
   case(exp_mstr_trans_h.header[7])
 
-          
+   /** case for write transaction */       
    1'b1 : begin 
            ref_mem[exp_mstr_trans_h.header[`ADDR_WIDTH-2 : 0]] = exp_mstr_trans_h.wr_data;
           // `uvm_info(get_name(),$sformatf("\n%s",sprint()),UVM_LOW); 
           end
+   /** case for read transaction */
    1'b0 : begin
            exp_spi_uvc_trans_h=spi_uvc_transaction::type_id::create("exp_spi_uvc_trans_h",this);
            if(ref_mem.exists(exp_mstr_trans_h.header[`ADDR_WIDTH-2 : 0]))begin
@@ -79,11 +81,15 @@ class spi_uvc_sb extends uvm_scoreboard;
 
  endfunction
 
+ /** master write function */
  function void write_mstr(spi_uvc_transaction act_slv_trans_h);
     `uvm_info(get_name(),$sformatf("\n%s",act_slv_trans_h.sprint()),UVM_LOW); 
     act_slv_data.push_back(act_slv_trans_h);
     check_data(exp_mstr_data,act_slv_data);
  endfunction
+
+ /** function check_data for comparision expected data and actual data and
+  * displaying SUCCESS and FAIL  */
 
  function void check_data(spi_uvc_transaction exp_mstr_data[$], spi_uvc_transaction act_slv_data[$]);
   if(exp_mstr_data.size() > 0 && act_slv_data.size() > 0) begin
@@ -108,11 +114,11 @@ class spi_uvc_sb extends uvm_scoreboard;
   end
  endfunction
 
-   /** Extract_phase*/
-   function void extract_phase(uvm_phase phase);
-      super.extract_phase(phase);
-      //as per the macro printing the pass count
-      if(`SB_PASS_COUNT)begin
+ /** Extract_phase*/
+ function void extract_phase(uvm_phase phase);
+   super.extract_phase(phase);
+     /** as per the macro printing the pass count */
+     if(`SB_PASS_COUNT)begin
          `uvm_info(get_type_name(),$sformatf(" \n\tPASSED || NUMBER OF PASSED B2B WRITE AND READ TRANSACTIONS = %0d\n",pass_count),UVM_NONE);
       end
    endfunction : extract_phase
