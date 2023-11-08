@@ -146,7 +146,6 @@ endclass : spi_uvc_slave_driver
                 //@(posedge vif.sclk)
                 vif.miso <= 1'bz;
               end /** if*/
-  
               else begin
                 vif.miso <= 1'bz;
               end /** else*/

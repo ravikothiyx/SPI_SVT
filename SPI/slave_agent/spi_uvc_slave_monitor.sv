@@ -196,7 +196,6 @@ endclass : spi_uvc_slave_monitor
       end /** begin*/
   endtask : monitor_master_trans
 
-
   /** To sample the transaction */
   task spi_uvc_slave_monitor::sample(spi_uvc_transaction spi_trans_h);
     `uvm_info(get_type_name(),"Inside monitor task",UVM_HIGH);

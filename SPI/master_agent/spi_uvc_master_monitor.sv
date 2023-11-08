@@ -98,7 +98,7 @@ endclass : spi_uvc_master_monitor
     `uvm_info(get_name(),"INSIDE CONNECT_PHASE",UVM_DEBUG);
     `uvm_info(get_type_name(),"END OF CONNECT_PHASE",UVM_HIGH);
   endfunction : connect_phase
-   
+  
   /** Run_phase*/
   task spi_uvc_master_monitor::run_phase(uvm_phase phase);
     `uvm_info(get_type_name(),"START OF RUN_PHASE",UVM_HIGH);     

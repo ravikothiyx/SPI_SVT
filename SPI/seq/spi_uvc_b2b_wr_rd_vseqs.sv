@@ -41,8 +41,7 @@ endclass : spi_uvc_b2b_wr_rd_vseqs
           `uvm_do_on_with(spi_wr_seqs_h , spi_mstr_seqr_h,{num_trans==1;})
           `uvm_do_on_with(spi_rd_seqs_h , spi_mstr_seqr_h,{num_trans==1;})
         end /** repeat*/ 
-      end /** begin*/
-    
+      end /** begin*/   
       /** Slave sequence*/
       //`uvm_do_on(spi_slv_seqs_h , spi_slv_seqr_h) 
     join_any

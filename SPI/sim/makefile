@@ -4,7 +4,7 @@ PKG		= ..\tb\spi_uvc_pkg.sv
 INCLUDE = +incdir+..\include +incdir+..\src +incdir+..\master_agent +incdir+..\slave_agent +incdir+..\env +incdir+..\seq +incdir+..\tests
 TOP 	= ..\tb\spi_uvc_top.sv
 TOP_N 	= spi_uvc_top
-
+COVERAGE = -c -do "coverage save -onexit -directive -cvg -codeall
 
 #To make a work file
 lib:

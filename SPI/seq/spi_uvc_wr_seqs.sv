@@ -38,4 +38,3 @@ endclass : spi_uvc_wr_seqs
       spi_trans_h.print();
     end /** begin*/
   endtask : body
-

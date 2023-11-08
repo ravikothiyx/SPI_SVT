@@ -19,7 +19,7 @@ class spi_uvc_master_cfg extends uvm_object;
  
   /** Enable coverage*/
   int enable_cov = 1;
-
+  
   /** Standard UVM Methods*/
   extern function new(string name = "spi_uvc_master_cfg");
 endclass : spi_uvc_master_cfg

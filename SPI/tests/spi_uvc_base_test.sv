@@ -40,6 +40,8 @@ class spi_uvc_base_test extends uvm_test;
   /** Configfunction to take data from the commandline*/
   extern function void config_func(output bit[7:0] reg0,reg1,reg2,reg3);
 
+   extern function void config_func(output bit[7:0] reg0,reg1,reg2,reg3);
+
 endclass : spi_uvc_base_test
 `endif /** SPI_UVC_BASE_TEST_SV*/
 
@@ -132,4 +134,3 @@ endclass : spi_uvc_base_test
       `uvm_info(get_name(),$sformatf("reg3 value = %0d",reg3),UVM_LOW)
     end /** else*/
   endfunction : config_func
-   

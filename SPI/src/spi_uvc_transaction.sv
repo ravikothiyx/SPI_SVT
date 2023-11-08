@@ -58,10 +58,10 @@ class spi_uvc_transaction extends uvm_sequence_item;
   rand bit [`ADDR_WIDTH - 1 : 0] instruction_set; 
 
    `uvm_object_utils_begin(spi_uvc_transaction)
-    `uvm_field_int(header          ,UVM_ALL_ON)
-    `uvm_field_int(wr_data         ,UVM_ALL_ON)
-    `uvm_field_int(rd_data         ,UVM_ALL_ON)
-    `uvm_field_int(instruction_set ,UVM_ALL_ON)
+    `uvm_field_int(header          ,UVM_ALL_ON|UVM_HEX)
+    `uvm_field_int(wr_data         ,UVM_ALL_ON|UVM_HEX)
+    `uvm_field_int(rd_data         ,UVM_ALL_ON|UVM_HEX)
+    `uvm_field_int(instruction_set ,UVM_ALL_ON|UVM_HEX)
    `uvm_object_utils_end
 
   /** Standard UVM Methods*/

@@ -35,7 +35,7 @@ class spi_uvc_env extends uvm_env;
   
   /** Standard UVM Methods*/
   extern function new(string name = "spi_uvc_env",uvm_component parent);
-
+  
   /** Build_phase*/
   extern function void build_phase(uvm_phase phase);
 
@@ -67,7 +67,7 @@ endclass : spi_uvc_env
 
       /** Creating the master agent class*/
       spi_mstr_agent_h = spi_uvc_master_agent::type_id::create("spi_mstr_agent_h",this);
-
+      
       /** Master agent configuration class is set*/
       uvm_config_db#(spi_uvc_master_cfg)::set(this,"*","spi_mstr_cfg_h",spi_mstr_cfg_h);
     end /** if*/

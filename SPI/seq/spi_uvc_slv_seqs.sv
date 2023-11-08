@@ -83,5 +83,3 @@ class spi_uvc_slv_seqs extends spi_uvc_slv_base_seqs;
     end /** forever*/
     `uvm_info(get_type_name(),"END OF THE BASE SEQUENCE BODY",UVM_LOW);
   endtask : body 
-
-
