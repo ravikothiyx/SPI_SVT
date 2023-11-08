@@ -17,5 +17,4 @@ interface spi_uvc_if(input bit bclk,input bit rstn);
 
   modport MSTR_MP (input sclk,output ss_n, output mosi, input miso);
   modport SLV_MP  (output sclk,input ss_n, input mosi, output miso);
-
 endinterface : spi_uvc_if
