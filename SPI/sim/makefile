@@ -16,7 +16,7 @@ comp:
 
 #To run the simulation in questasim
 sim:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000000"
 	
 #To run the simulation in command prompt
 sim_c:
@@ -26,7 +26,6 @@ sanity_test_c:
 	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01000000"
 
 b2b_wr_test_c:
-
 	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_test 01000000"
 	
 b2b_rd_test_c:
@@ -84,112 +83,112 @@ b2b_wr_rd_mode3_test_c:
 	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001100"
 	
 sanity_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000100"
 
 b2b_wr_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000100"
 	
 b2b_rd_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000100"
 	
 b2b_wr_rd_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000100"
 
 sanity_mode0_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000000"
 
 b2b_wr_mode0_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000000"
 	
 b2b_rd_mode0_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000000"
 	
 b2b_wr_rd_mode0_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000000"
 
 sanity_mode1_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000100"
 
 b2b_wr_mode1_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000100"
 	
 b2b_rd_mode1_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000100"
 	
 b2b_wr_rd_mode1_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000100"
 	
 sanity_mode2_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001000"
 
 b2b_wr_mode2_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001000"
 	
 b2b_rd_mode2_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001000"
 	
 b2b_wr_rd_mode2_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001000"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001000"
 	
 sanity_mode3_test: 
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001100"
 
 b2b_wr_mode3_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001100"
 	
 b2b_rd_mode3_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001100"
 	
 b2b_wr_rd_mode3_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001100"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001100"
 
 sanity_mode0_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000001"
 
 b2b_wr_mode0_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000001"
 	
 b2b_rd_mode0_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000001"
 	
 b2b_wr_rd_mode0_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000001"
 
 sanity_mode1_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000101"
 
 b2b_wr_mode1_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000101"
 	
 b2b_rd_mode1_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000101"
 	
 b2b_wr_rd_mode1_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000101"
 	
 sanity_mode2_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001001"
 
 b2b_wr_mode2_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001001"
 	
 b2b_rd_mode2_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001001"
 	
 b2b_wr_rd_mode2_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001001"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001001"
 	
 sanity_mode3_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001101"
 
 b2b_wr_mode3_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001101"
 	
 b2b_rd_mode3_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001101"
 	
 b2b_wr_rd_mode3_lsb_test:
-	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001101"
+	vsim -assertdebug -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001101"
 
 sanity_mode0_lsb_test_c:
 	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01000001"
@@ -503,3 +502,100 @@ b2b_rd_mode3_size_test:
 	
 b2b_wr_rd_mode3_size_test:
 	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001100 $(size)"
+	
+sanity_mode0_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01000000 $(size)"	
+
+b2b_wr_mode0_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_test 01000000 $(size)"
+	
+b2b_rd_mode0_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_rd_test 01000000 $(size)"
+	
+b2b_wr_rd_mode0_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000000 $(size)"
+
+sanity_mode1_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01000100 $(size)"
+
+b2b_wr_mode1_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_test 01000100 $(size)"
+	
+b2b_rd_mode1_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_rd_test 01000100 $(size)"
+	
+b2b_wr_rd_mode1_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000100 $(size)"
+	
+sanity_mode2_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01001000 $(size)"
+
+b2b_wr_mode2_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_test 01001000 $(size)"
+	
+b2b_rd_mode2_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_rd_test 01001000 $(size)"
+	
+b2b_wr_rd_mode2_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001000 $(size)"
+	
+sanity_mode3_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_sanity_test 01001100 $(size)"
+
+b2b_wr_mode3_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_test 01001100 $(size)"
+	
+b2b_rd_mode3_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_rd_test 01001100 $(size)"
+	
+b2b_wr_rd_mode3_size_lsb_test_c:
+	vsim -novopt $(TOP_N) -c -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001100 $(size)"
+	
+	
+sanity_mode0_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000001 $(size)"
+
+b2b_wr_mode0_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000001 $(size)"
+	
+b2b_rd_mode0_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000001 $(size)"
+	
+b2b_wr_rd_mode0_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000001 $(size)"
+
+sanity_mode1_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01000101 $(size)"
+
+b2b_wr_mode1_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01000101 $(size)"
+	
+b2b_rd_mode1_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01000101 $(size)"
+	
+b2b_wr_rd_mode1_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01000101 $(size)"
+	
+sanity_mode2_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001001 $(size)"
+
+b2b_wr_mode2_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001001 $(size)"
+	
+b2b_rd_mode2_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001001 $(size)"
+	
+b2b_wr_rd_mode2_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001001 $(size)"
+	
+sanity_mode3_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_sanity_test 01001101 $(size)"
+
+b2b_wr_mode3_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_test 01001101 $(size)"
+	
+b2b_rd_mode3_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_rd_test 01001101 $(size)"
+	
+b2b_wr_rd_mode3_size_lsb_test:
+	vsim -novopt $(TOP_N) -do "do runsim.do spi_uvc_b2b_wr_rd_test 01001101 $(size)"

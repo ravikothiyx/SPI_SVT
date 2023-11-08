@@ -34,12 +34,11 @@ class spi_uvc_reg_cfg extends uvm_object;
   /** Standarad UVM Methods*/
   extern function new(string name = "spi_uvc_reg_cfg");
 
-endclass
+endclass : spi_uvc_reg_cfg
 `endif /** SPI_UVC_REG_CONFIG_SV*/
 
-  /** Defination of extern function*/
-
+ /** Defination of extern function*/
  function spi_uvc_reg_cfg::new(string name ="spi_uvc_reg_cfg");
-  super.new(name);
+   super.new(name);
  endfunction : new
  
